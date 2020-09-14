@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moayo.server.dao.DogamListDao">
+
+    <select id="getDogamById" resultType="com.moayo.server.model.DogamListModel">
+        select * from tb_dogamList where co_dogamId=#{id};
+    </select>
+    <select id="getAllDogam" resultType="com.moayo.server.model.DogamListModel">
+        select * from tb_dogamList;
+    </select>
+    <select id="getDogamByWriterName" resultType="com.moayo.server.model.DogamListModel" parameterType="String">
+        select * from tb_dogamList where co_writer = '${value}'
+    </select>
+    <select id="getDogamByDescriptionSearch" resultType="com.moayo.server.model.DogamListModel" parameterType="String">
+        select * from tb_dogamList where co_description LIKE '%${value}%'
+    </select>
+    <insert id="insertDogam" parameterType="com.moayo.server.model.DogamListModel" useGeneratedKeys="true" keyProperty="co_dogamId">
+        INSERT INTO `tb_dogamList` (`co_title`, `co_description`, `co_status`,`co_password`,`co_writer`,`co_like`,`co_date`) VALUES (#{co_title},#{co_description},#{co_status},#{co_password},#{co_writer},#{co_like},NOW());
+    </insert>
+    <update id="updateDogam" parameterType="com.moayo.server.model.DogamListModel">
+        UPDATE tb_dogamList SET `co_title` = #{co_title}, `co_description` = #{co_description}, `co_status` = #{co_status}, `co_password` = #{co_password}, `co_writer` = #{co_writer}, `co_like` = #{co_like}, `co_date` = NOW() WHERE (`co_dogamId` = #{co_dogamId})
+    </update>
+    <delete id="deleteDogamByModel" parameterType="com.moayo.server.model.DogamListModel">
+        DELETE FROM tb_dogamList WHERE (`co_dogamId` = #{co_dogamId});
+    </delete>
+    <delete id="deleteDogamById" parameterType="int">
+        DELETE FROM tb_dogamList WHERE (co_dogamId = #{id})
+    </delete>
+
+    <update id="like" parameterType="int">
+        UPDATE tb_dogamList SET `co_like` = `co_like` + 1 where `co_dogamId` = #{dogamId}
+    </update>
+
+    <update id="disLike" parameterType="int">
+        UPDATE tb_dogamList SET `co_like` = `co_like` - 1 where `co_dogamId` = #{dogamId}
+    </update>
+</mapper>

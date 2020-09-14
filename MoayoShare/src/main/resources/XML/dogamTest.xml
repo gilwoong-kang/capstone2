@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dogam
+        xmlns="https://github.com/kookmin-sw/capstone-2020-23/tree/shareServer_develop/src/MoayoShare/src/main/resources/XML"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://github.com/kookmin-sw/capstone-2020-23/tree/shareServer_develop/src/MoayoShare/src/main/resources/XML dogam.xsd">
+    <title>요리도감</title>
+    <description>요리도감 입니다.</description>
+    <status>1</status>
+    <password>1234</password>
+
+    <category id="1">
+        <categoryName>요리</categoryName>
+        <categoryLevel>1</categoryLevel>
+        <hashtag>#요리해시태그</hashtag>
+        <categoryParentId>1</categoryParentId>
+    </category>
+    <category id="2">
+        <categoryName>중화요리</categoryName>
+        <categoryLevel>2</categoryLevel>
+        <hashtag>#중화요리</hashtag>
+        <categoryParentId>1</categoryParentId>
+    </category>
+    <category id="3">
+        <categoryName>유산슬</categoryName>
+        <categoryLevel>3</categoryLevel>
+        <hashtag>#유산슬#류산슬</hashtag>
+        <categoryParentId>2</categoryParentId>
+    </category>
+    <category id="4">
+        <categoryName>짜장면</categoryName>
+        <categoryLevel>3</categoryLevel>
+        <hashtag>#자장면#짜장면</hashtag>
+        <categoryParentId>2</categoryParentId>
+    </category>
+    <category id="5">
+        <categoryName>일식요리</categoryName>
+        <categoryLevel>2</categoryLevel>
+        <hashtag>#일식#일식요리</hashtag>
+        <categoryParentId>1</categoryParentId>
+    </category>
+    <category id="6">
+        <categoryName>돈까스</categoryName>
+        <categoryLevel>3</categoryLevel>
+        <hashtag>#돈가스#돈까스</hashtag>
+        <categoryParentId>5</categoryParentId>
+    </category>
+    <category id="7">
+        <categoryName>초밥</categoryName>
+        <categoryLevel>3</categoryLevel>
+        <hashtag>#초밥#스시</hashtag>
+        <categoryParentId>5</categoryParentId>
+    </category>
+
+    <post>
+        <postUrl>URL</postUrl>
+        <imageUrl>IMGURL</imageUrl>
+        <info>INFO</info>
+        <postHashtag>#맛집</postHashtag>
+        <postParentId>7</postParentId>
+    </post>
+</dogam>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moayo.server.dao.HashtagDao">
+    <insert id="insertHashtag" parameterType="com.moayo.server.model.HashtagModel">
+        INSERT INTO `tb_hashtag` (`co_hashtag`) VALUES ('${co_hashtag}');
+    </insert>
+    <insert id="insertAll" parameterType="com.moayo.server.model.CategoryHashModel">
+        INSERT INTO `tb_hashtag` (`co_hashtag`) VALUES
+        <foreach collection="java.util.Arrays" item="item" separator=",">
+            ('${co_hashtag}')
+        </foreach>
+    </insert>
+    <delete id="deleteHashtag" parameterType="com.moayo.server.model.HashtagModel">
+        DELETE FROM tb_hashtag WHERE `co_hashtag` = '${co_hashtag}'
+    </delete>
+    <delete id="deleteHashtagByString" parameterType="String">
+        DELETE FROM tb_hashtag WHERE `co_hashtag` = '${value}'
+    </delete>
+    <select id="getAllHashtag" resultType="com.moayo.server.model.HashtagModel">
+        SELECT * FROM tb_hashtag;
+    </select>
+</mapper>

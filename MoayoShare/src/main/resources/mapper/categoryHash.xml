@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moayo.server.dao.CategoryHashDao">
+    <insert id="insertCategoryHashtag" parameterType="com.moayo.server.model.CategoryHashModel">
+        INSERT INTO `MoayoShare`.`tb_categoryHashtag` (`co_dogamId`, `co_categoryId`, `co_hashtag`)
+        VALUES (${co_dogamId}, ${co_categoryId}, '${co_hashtag}');
+    </insert>
+    <insert id="insertAll" parameterType="com.moayo.server.model.CategoryHashModel">
+        INSERT INTO `MoayoShare`.`tb_categoryHashtag` (`co_dogamId`, `co_categoryId`, `co_hashtag`) VALUES 
+        <foreach item="item"  collection="array" separator="," index="index">
+            (${item.co_dogamId}, ${item.co_categoryId}, '${item.co_hashtag}')
+        </foreach>
+    </insert>
+    <delete id="deleteByDogamId" parameterType="int">
+        DELETE FROM `MoayoShare`.`tb_categoryHashtag` WHERE `co_dogamId = #{dogamId};
+    </delete>
+    <delete id="deleteByCategoryId" parameterType="map">
+        DELETE FROM `MoayoShare`.`tb_categoryHashtag` WHERE `co_dogamId = #{dogamId} AND `co_categoryId` = #{categoryId};
+    </delete>
+    <delete id="deleteByHashtag" parameterType="String">
+        DELETE FROM `MoayoShare`.`tb_categoryHashtag` WHERE `co_hashtag` = ${value};
+    </delete>
+
+    <select id="getByDogamId" parameterType="int" resultType="com.moayo.server.model.CategoryHashModel">
+        SELECT * FROM `tb_categoryHashtag` WHERE `co_dogamId` = #{dogamId};
+    </select>
+    <select id="getByCategoryId" parameterType="map" resultType="com.moayo.server.model.CategoryHashModel">
+        SELECT * FROM `tb_categoryHashtag` WHERE `co_dogamId` = #{dogamId} AND `co_categoryId` = #{categoryId};
+    </select>
+    <select id="getByHashtag" parameterType="String" resultType="com.moayo.server.model.CategoryHashModel">
+        SELECT * FROM `tb_categoryHashtag` WHERE `co_hashtag` = ${value};
+    </select>
+</mapper>

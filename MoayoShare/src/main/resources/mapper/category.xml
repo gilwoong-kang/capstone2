@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moayo.server.dao.CategoryDao">
+
+    <update id="foreignKeyON">
+        SET FOREIGN_KEY_CHECKS=1
+    </update>
+    <update id="foreignKeyOFF">
+        SET FOREIGN_KEY_CHECKS=0
+    </update>
+    <insert id="insertCategory" parameterType="com.moayo.server.model.CategoryModel" useGeneratedKeys="true" keyProperty="co_categoryId">
+        INSERT INTO `MoayoShare`.`tb_category` (`co_dogamId`, `co_name`, `co_level`, `co_parentCategoryId`)
+        VALUES (${co_dogamId},'${co_name}',${co_level},${co_parentCategoryId})
+    </insert>
+    <insert id="rootInsert" parameterType="com.moayo.server.model.CategoryModel" useGeneratedKeys="true" keyProperty="co_categoryId">
+        INSERT INTO `tb_category` (co_dogamId, co_name, co_level, co_parentCategoryId)
+        VALUES (${co_dogamId},'${co_name}',${co_level},${co_parentCategoryId})
+    </insert>
+    <update id="updateCategory" parameterType="com.moayo.server.model.CategoryModel" useGeneratedKeys="true" keyProperty="co_categoryId">
+        UPDATE `MoayoShare`.`tb_category` SET `co_name` = '${co_name}', `co_level` = ${co_level}, `co_parentCategoryId` = ${co_parentCategoryId} WHERE (`co_categoryId` = ${co_categoryId}) and (`co_dogamId` = ${co_dogamId});
+    </update>
+
+    <delete id="deleteCategory" parameterType="com.moayo.server.model.CategoryModel">
+        DELETE FROM `MoayoShare`.`tb_category` WHERE (`co_categoryId` = #{co_categoryId}) and (`co_dogamId` = #{co_dogamId});
+    </delete>
+
+    <delete id="deleteCategoryById" parameterType="map">
+        DELETE FROM `MoayoShare`.`tb_category` WHERE (`co_categoryId` = #{id}) AND (`co_dogamId` = #{dogamId});
+    </delete>
+
+    <delete id="deleteCategoryByDogamId" parameterType="int">
+        DELETE FROM `MoayoShare`.`tb_category` WHERE (`co_dogamId` = #{dogamId});
+    </delete>
+
+    <select id="getCategoryById" parameterType="map" resultType="com.moayo.server.model.CategoryModel">
+        SELECT * FROM tb_category WHERE (co_categoryId = #{id}) and (`co_dogamId` = #{dogamId})
+    </select>
+    <select id="getCategoryByDogamId" resultType="com.moayo.server.model.CategoryModel" parameterType="_int">
+        SELECT * FROM MoayoShare.tb_category WHERE (`co_dogamId` = #{dogamId});
+    </select>
+</mapper>

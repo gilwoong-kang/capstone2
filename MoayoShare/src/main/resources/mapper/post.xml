@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.moayo.server.dao.PostDao">
+    <insert id="insertPost" parameterType="com.moayo.server.model.PostModel" keyProperty="co_postId" useGeneratedKeys="true">
+        INSERT INTO `MoayoShare`.`tb_postHavingLike` ( `co_postUrl`, `co_imageUrl`, `co_hashtag`, `co_like`) VALUES ('${co_postUrl}', '${co_imageUrl}',
+        '${co_hashtag}', ${co_like});
+    </insert>
+    <update id="updatePost" parameterType="com.moayo.server.model.PostModel" useGeneratedKeys="true" keyProperty="co_postId">
+        UPDATE `MoayoShare`.`tb_postHavingLike` SET `co_postUrl` = '${co_postUrl}', `co_imageUrl` = '${co_imageUrl}', `co_hashtag` = '${co_hashtag}', `co_like` = ${co_like}
+        WHERE (`co_postId` = ${co_postId});
+    </update>
+    <delete id="deletePost" parameterType="com.moayo.server.model.PostModel">
+        DELETE FROM `MoayoShare`.`tb_postHavingLike` WHERE (`co_postId` = ${co_postId});
+    </delete>
+    <delete id="deletePostById" parameterType="int">
+        DELETE FROM `MoayoShare`.`tb_postHavingLike` WHERE (`co_postId` = #{postId});
+    </delete>
+    <select id="getPost" resultType="com.moayo.server.model.PostModel" parameterType="int">
+        SELECT * FROM `tb_postHavingLike` WHERE co_postId = #{postId};
+    </select>
+    <select id="getAllPost" resultType="com.moayo.server.model.PostModel">
+        SELECT * FROM `tb_postHavingLike`;
+    </select>
+</mapper>
