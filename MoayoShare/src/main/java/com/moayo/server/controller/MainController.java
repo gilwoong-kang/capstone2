@@ -58,6 +58,7 @@ public class MainController {
 
     @RequestMapping(value = "/getDogam",method = RequestMethod.GET)
     public DogamModel getDogam(HttpServletRequest req,HttpServletResponse res,@RequestParam int dogamId){
+
         logger.info(req.getRequestedSessionId()+" : "+dogamId);
         DogamModel dogamModel = service.getDogam(dogamId);
         logger.info(dogamModel.getDogamListModel().toString());
@@ -77,8 +78,12 @@ public class MainController {
 
     @RequestMapping(value = "/getDogamList",method = RequestMethod.GET)
     public List<DogamListModel> getDogamList(){
-        logger.info("getAllDogam");
-        return service.getDogamList();
+//        logger.info("getAllDogam");
+        long startTime = System.currentTimeMillis();
+        List<DogamListModel> dogamListModels = service.getDogamList();
+        long endTime = System.currentTimeMillis();
+        logger.info("get Dogam List/Time : " + (endTime - startTime));
+        return dogamListModels;
     }
 
     @RequestMapping(value = "/deleteDogam",method = RequestMethod.GET)
