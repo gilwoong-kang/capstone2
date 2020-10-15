@@ -4,21 +4,14 @@ package com.moayo.server.controller;
 import com.moayo.server.model.*;
 import com.moayo.server.service.JSONParsingService;
 import com.moayo.server.service.concrete.ShareService;
-import com.moayo.server.service.XMLParsingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 import util.JSONReturn;
-import util.XMLParsing;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +22,19 @@ public class MainController {
     @Autowired
     JSONParsingService jsonParsingService;
 
+    static int count = 0;
+    static long avg = 0;
+
     private Logger logger = LoggerFactory.getLogger(MainController.class);
 
+    @RequestMapping(value = "/analysis",method=RequestMethod.GET)
+    public String an(){
+        int c = count;
+        long a = avg;
+        count = 0;
+        avg = 0;
+        return "Count : " + c + ", avg : " + a/c;
+    }
 
     @RequestMapping(value = "/dogamLike", method = RequestMethod.GET)
     public JSONReturn like(@RequestParam int dogamId){
@@ -83,6 +87,8 @@ public class MainController {
         List<DogamListModel> dogamListModels = service.getDogamList();
         long endTime = System.currentTimeMillis();
         logger.info("get Dogam List/Time : " + (endTime - startTime));
+        avg += endTime - startTime;
+        count++;
         return dogamListModels;
     }
 
