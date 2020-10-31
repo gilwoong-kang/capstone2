@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -60,8 +61,12 @@ public class ShareService {
         logger.info(dogamModel.getDogamListModel().toString());
         return dogamModel;
     }
-    public List<DogamListModel> getDogamList(){
-        return dogamListDao.getAllDogam();
+    public List<DogamListModel> getDogamList() throws NullPointerException{
+        List<DogamListModel> dogamListModels = dogamListDao.getAllDogam();
+        if(dogamListModels == null){
+            throw new NullPointerException();
+        }
+        return dogamListModels;
     }
 
     public void deleteDogam(int dogamId){

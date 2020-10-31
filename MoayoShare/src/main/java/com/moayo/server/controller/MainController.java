@@ -4,8 +4,9 @@ package com.moayo.server.controller;
 import com.moayo.server.model.*;
 import com.moayo.server.service.JSONParsingService;
 import com.moayo.server.service.concrete.ShareService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import util.JSONReturn;
@@ -17,25 +18,44 @@ import java.util.List;
 
 @RestController
 public class MainController {
+
     @Autowired
-    ShareService service;
+    ShareService service;   // get service
     @Autowired
-    JSONParsingService jsonParsingService;
+    JSONParsingService jsonParsingService; // general service
 
-    static int count = 0;
-    static long avg = 0;
 
-    private Logger logger = LoggerFactory.getLogger(MainController.class);
+    private static Logger logger = null;
 
-    @RequestMapping(value = "/analysis",method=RequestMethod.GET)
-    public String an(){
-        int c = count;
-        long a = avg;
-        count = 0;
-        avg = 0;
-        return "Count : " + c + ", avg : " + a/c;
+    /**
+     * DI시 logger 객체 함께 주입
+     * */
+    public MainController(){
+        // set Logger
+        System.setProperty("log4j.configurationFile","log4j2.xml");
+        logger = LogManager.getLogger();
     }
 
+    /**
+     * 현재 데이터베이스에 존재하는 모든 도감에 관한 정보를 반환한다.
+     * id/title/description/status/password/writer/like/date
+     * description에 소개와 함께 이미지 URL이 함께 전달한다.
+     * */
+    @RequestMapping(value = "/getDogamList",method = RequestMethod.GET)
+    public List<DogamListModel> getDogamList(){
+        logger.info("Request getDogamList");
+        try{
+            return service.getDogamList();
+        }catch (NullPointerException e){
+            logger.error("Service return is NULL.");
+            return null;
+        }
+    }
+
+    /**
+     * dogamId 값과 일치하는 데이터베이스 내부 dogam의 like 수치를 하나 올린다.
+     * 올바르게 처리 되었다면 0000을, 오류가 있다면 0001을 리턴한다.
+     * */
     @RequestMapping(value = "/dogamLike", method = RequestMethod.GET)
     public JSONReturn like(@RequestParam int dogamId){
         try{
@@ -78,18 +98,6 @@ public class MainController {
             return new JSONReturn(0001,dogamModel.getDogamListModel().getCo_dogamId());
         }
         return new JSONReturn(0000,dogamModel.getDogamListModel().getCo_dogamId());
-    }
-
-    @RequestMapping(value = "/getDogamList",method = RequestMethod.GET)
-    public List<DogamListModel> getDogamList(){
-//        logger.info("getAllDogam");
-        long startTime = System.currentTimeMillis();
-        List<DogamListModel> dogamListModels = service.getDogamList();
-        long endTime = System.currentTimeMillis();
-        logger.info("get Dogam List/Time : " + (endTime - startTime));
-        avg += endTime - startTime;
-        count++;
-        return dogamListModels;
     }
 
     @RequestMapping(value = "/deleteDogam",method = RequestMethod.GET)
