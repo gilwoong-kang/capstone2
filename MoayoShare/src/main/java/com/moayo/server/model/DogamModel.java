@@ -1,5 +1,9 @@
 package com.moayo.server.model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import util.Exception.getDogamDBException;
+
 import java.util.Arrays;
 
 public class DogamModel {
@@ -10,6 +14,8 @@ public class DogamModel {
 
     private CategoryPostModel[] categoryPostModels;
     private CategoryHashModel[] categoryHashModels;
+
+    private Logger logger = LogManager.getLogger();
 
     public DogamModel(DogamListModel dogamListModel, CategoryModel[] categoryModels, PostModel[] postModels, HashtagModel[] hashtagModels, CategoryPostModel[] categoryPostModels, CategoryHashModel[] categoryHashModels) {
         this.dogamListModel = dogamListModel;
@@ -35,11 +41,17 @@ public class DogamModel {
                 '}';
     }
 
-    public void setDogamListModel(DogamListModel dogamListModel) {
+    public void setDogamListModel(DogamListModel dogamListModel){
+        if(dogamListModel == null){
+            logger.warn("{} dogamListModel is NULL. 도감 아이디 값이 잘못되었습니다.",this.getClass().getName());
+        }
         this.dogamListModel = dogamListModel;
     }
 
     public void setCategoryModels(CategoryModel[] categoryModels) {
+        if(categoryModels.length == 0){
+            logger.warn("{} categoryModels is NULL",this.getClass().getName());
+        }
         this.categoryModels = categoryModels;
     }
 
@@ -48,14 +60,23 @@ public class DogamModel {
     }
 
     public void setHashtagModels(HashtagModel[] hashtagModels) {
+        if(hashtagModels.length == 0){
+            logger.warn("{} hashtagModels is NULL",this.getClass().getName());
+        }
         this.hashtagModels = hashtagModels;
     }
 
     public void setCategoryPostModels(CategoryPostModel[] categoryPostModels) {
+        if(categoryPostModels.length == 0){
+            logger.warn("{} categoryPostModels is NULL");
+        }
         this.categoryPostModels = categoryPostModels;
     }
 
     public void setCategoryHashModels(CategoryHashModel[] categoryHashModels) {
+        if(categoryHashModels.length == 0){
+            logger.warn("{} categoryHashModels is NULL",this.getClass().getName());
+        }
         this.categoryHashModels = categoryHashModels;
     }
 

@@ -16,6 +16,6 @@ public interface DogamListDao {
     List<DogamListModel> getAllDogam();
     List<DogamListModel> getDogamByWriterName(String writer);
     List<DogamListModel> getDogamByDescriptionSearch(String description);
-    void like(int dogamId);
-    void disLike(int dogamId);
+    int like(int dogamId);
+    int disLike(int dogamId);
 }

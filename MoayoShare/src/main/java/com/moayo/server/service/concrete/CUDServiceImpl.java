@@ -2,16 +2,18 @@ package com.moayo.server.service.concrete;
 
 import com.moayo.server.dao.*;
 import com.moayo.server.model.*;
-import com.moayo.server.service.JSONParsingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.moayo.server.service.CUDService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import util.Exception.NoDogamIdException;
 
 import java.util.*;
 
 @Service
-public class JSONParsingServiceImpl implements JSONParsingService {
+public class CUDServiceImpl implements CUDService {
 
     @Autowired
     DogamListDao dogamListDao;
@@ -28,8 +30,8 @@ public class JSONParsingServiceImpl implements JSONParsingService {
 
     private Logger logger;
 
-    public JSONParsingServiceImpl() {
-        logger = LoggerFactory.getLogger(JSONParsingServiceImpl.class);
+    public CUDServiceImpl() {
+        logger = LogManager.getLogger();
     }
 
     public void insertData(DogamModel dogamModel){
@@ -53,13 +55,29 @@ public class JSONParsingServiceImpl implements JSONParsingService {
     }
 
     @Override
-    public void like(int dogamId) {
-        dogamListDao.like(dogamId);
+    public void like(int dogamId) throws NoDogamIdException{
+        try{
+            if(dogamListDao.like(dogamId) == 0){
+                throw new NoDogamIdException(dogamId + " is NOT EXIST.");
+            }
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR.");
+            logger.fatal(e.getMessage());
+            throw e;
+        }
     }
 
     @Override
-    public void disLike(int dogamId) {
-        dogamListDao.disLike(dogamId);
+    public void disLike(int dogamId) throws NoDogamIdException{
+        try{
+            if(dogamListDao.disLike(dogamId) == 0){
+                throw new NoDogamIdException(dogamId + " is NOT EXIST.");
+            }
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR.");
+            logger.fatal(e.getMessage());
+            throw e;
+        }
     }
 
     private void hashtagInsert(HashtagModel[] hashtagModels){
