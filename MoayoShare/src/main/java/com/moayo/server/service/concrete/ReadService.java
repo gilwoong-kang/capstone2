@@ -31,10 +31,18 @@ public class ReadService {
     }
 
     public boolean isDogam(int dogamId){
-        DogamListModel dogamListModel = dogamListDao.getDogamById(dogamId);
-        if(dogamListModel == null)
+        try {
+            DogamListModel dogamListModel = dogamListDao.getDogamById(dogamId);
+            if(dogamListModel == null){
+                logger.warn("{} dogam is NOT EXIST.",dogamId);
+                return false;
+            }
+            return true;
+        }catch (MyBatisSystemException e){
+            logger.fatal("DB ERROR");
+            logger.fatal(e.getMessage());
             return false;
-        return true;
+        }
     }
 
     public DogamModel getDogam(int dogamId){
@@ -85,13 +93,32 @@ public class ReadService {
     }
 
     public void deleteDogam(int dogamId){
-        dogamListDao.deleteDogamById(dogamId);
+        try{
+            dogamListDao.deleteDogamById(dogamId);
+            logger.debug("Deleting Dogam success.");
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR.");
+            logger.fatal(e.getMessage());
+            return;
+        }
     }
 
     public List<DogamListModel> getDogamByWriterName(String writer){
-        return dogamListDao.getDogamByWriterName(writer);
+        try{
+            return dogamListDao.getDogamByWriterName(writer);
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR.");
+            logger.fatal(e.getMessage());
+            return null;
+        }
     }
     public List<DogamListModel> getDogamByKeyword(String keyword){
-        return dogamListDao.getDogamByDescriptionSearch(keyword);
+        try{
+            return dogamListDao.getDogamByDescriptionSearch(keyword);
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR.");
+            logger.fatal(e.getMessage());
+            return null;
+        }
     }
 }
