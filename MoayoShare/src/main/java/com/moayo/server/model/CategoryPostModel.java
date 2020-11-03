@@ -1,20 +1,45 @@
 package com.moayo.server.model;
 
+/**
+ * 카테고리와 게시물은 데이터베이스에서 n:m 관계를 가지기에 추가 테이블로 1:n관계로 표현.
+ * 해당 테이블값을 매핑하기 위한 model.
+ *
+ * @author gilwoongkang
+ */
 public class CategoryPostModel {
+    /**
+     * 카테고리-포스트 정보가 속한 도감의 id값.
+     */
     private int co_dogamId;
+
+    /**
+     * 게시물과 연결된 카테고리의 id.
+     */
     private int co_categoryId;
+
+    /**
+     * 카테고리와 연결된 게시물의 id.
+     */
     private int co_postId;
 
-
+    /**
+     * Constructor는 모든 값이 존재하거나 값이 없어야만 유효.
+     * 데이터베이스에서 값이 참조를 받기 때문임.
+     * @param co_dogamId 해당 값들을 포함하는 도감의 id.
+     * @param co_categoryId row의 카테고리 id
+     * @param co_postId row의 게시물 id
+     */
     public CategoryPostModel(int co_dogamId, int co_categoryId, int co_postId) {
         this.co_dogamId = co_dogamId;
         this.co_categoryId = co_categoryId;
         this.co_postId = co_postId;
     }
 
-    public CategoryPostModel() {
-    }
+    public CategoryPostModel() { }
 
+    /**
+     * get/set 메소드
+     * */
     public void setCo_dogamId(int co_dogamId) {
         this.co_dogamId = co_dogamId;
     }
@@ -39,6 +64,10 @@ public class CategoryPostModel {
         this.co_postId = co_postId;
     }
 
+    /**
+     * model의 toString 리턴 형태는 JSON형태로 한다.
+     * @return
+     */
     @Override
     public String toString() {
         return "CategoryPostModel{" +

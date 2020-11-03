@@ -1,6 +1,15 @@
 package com.moayo.server.model;
 
+/**
+ * 해시태그에 들어가는 값 modeling.
+ * '#'을 포함하지 않음.
+ *
+ * @author gilwoongkang
+ */
 public class HashtagModel {
+    /**
+     * 해시태그 정보.
+     */
     private String co_hashtag;
 
     public HashtagModel(String co_hashtag) {

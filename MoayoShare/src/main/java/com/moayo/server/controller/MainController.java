@@ -118,7 +118,7 @@ public class MainController {
         logger.info(req.getRequestedSessionId()+" : "+dogamId);
         DogamModel dogamModel = readService.getDogam(dogamId);
         logger.info("{}/{} : Dogam Out.",dogamModel.getDogamListModel().getCo_dogamId(),dogamModel.getDogamListModel().getCo_title());
-        return dogamModel;
+        return dogamModel;  // 도감 없을때 핸들링 안됨.
     }
 
     /**

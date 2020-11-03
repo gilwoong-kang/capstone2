@@ -1,6 +1,12 @@
 package com.moayo.server.model;
 
+/**
+ * @author gilwoongkang
+ */
 public class CategoryModel {
+    /**
+     *
+     */
     private int co_categoryId;
     private int co_dogamId;
     private String co_name;
@@ -71,6 +77,10 @@ public class CategoryModel {
         this.co_name = co_name;
     }
 
+    /**
+     * model의 toString 리턴 형태는 JSON형태로 한다.
+     * @return
+     */
     @Override
     public String toString() {
         return "CategoryModel{" +
