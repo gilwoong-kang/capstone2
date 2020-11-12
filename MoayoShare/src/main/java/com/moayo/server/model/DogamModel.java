@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Arrays;
 
 /**
- * 도감의 모든 데이터를 가진다. (DogamListModel, category정보, post정보, hashtag정보)
+ * 도감의 모든 데이터를 가진다. (DogamInfoModel, category정보, post정보, hashtag정보)
  * 클라이언트에게 도감의 정보를 넘겨주게 될때 해당 model을 이용해서 전달한다.
  * 해당 포맷은 클라이언트도 동일하게 가진다.
  *
@@ -13,9 +13,9 @@ import java.util.Arrays;
  */
 public class DogamModel {
     /**
-     * 도감의 기본 정보를 가지는 dogamListModel
+     * 도감의 기본 정보를 가지는 dogamInfoModel
      */
-    private DogamListModel dogamListModel;
+    private DogamInfoModel dogamInfoModel;
 
     /**
      * 도감에 만들어져 있는 카테고리 정보들이 array에 담긴다.
@@ -47,8 +47,8 @@ public class DogamModel {
      */
     private Logger logger = LogManager.getLogger();
 
-    public DogamModel(DogamListModel dogamListModel, CategoryModel[] categoryModels, PostModel[] postModels, HashtagModel[] hashtagModels, CategoryPostModel[] categoryPostModels, CategoryHashModel[] categoryHashModels) {
-        this.dogamListModel = dogamListModel;
+    public DogamModel(DogamInfoModel dogamInfoModel, CategoryModel[] categoryModels, PostModel[] postModels, HashtagModel[] hashtagModels, CategoryPostModel[] categoryPostModels, CategoryHashModel[] categoryHashModels) {
+        this.dogamInfoModel = dogamInfoModel;
         this.categoryModels = categoryModels;
         this.postModels = postModels;
         this.hashtagModels = hashtagModels;
@@ -66,7 +66,7 @@ public class DogamModel {
     @Override
     public String toString() {
         return "DogamModel{" +
-                "dogamListModel=" + dogamListModel +
+                "dogamInfoModel=" + dogamInfoModel +
                 ", categoryModels=" + Arrays.toString(categoryModels) +
                 ", postModels=" + Arrays.toString(postModels) +
                 ", hashtagModels=" + Arrays.toString(hashtagModels) +
@@ -78,11 +78,11 @@ public class DogamModel {
     /**
      * get/set 메소
      */
-    public void setDogamListModel(DogamListModel dogamListModel){
-        if(dogamListModel == null){
-            logger.warn("{} dogamListModel is NULL. 도감 아이디 값이 잘못되었습니다.",this.getClass().getName());
+    public void setDogamInfoModel(DogamInfoModel dogamInfoModel){
+        if(dogamInfoModel == null){
+            logger.warn("{} dogamInfoModel is NULL. 도감 아이디 값이 잘못되었습니다.",this.getClass().getName());
         }
-        this.dogamListModel = dogamListModel;
+        this.dogamInfoModel = dogamInfoModel;
     }
 
     public void setCategoryModels(CategoryModel[] categoryModels) {
@@ -117,8 +117,8 @@ public class DogamModel {
         this.categoryHashModels = categoryHashModels;
     }
 
-    public DogamListModel getDogamListModel() {
-        return dogamListModel;
+    public DogamInfoModel getDogamInfoModel() {
+        return dogamInfoModel;
     }
 
     public CategoryModel[] getCategoryModels() {

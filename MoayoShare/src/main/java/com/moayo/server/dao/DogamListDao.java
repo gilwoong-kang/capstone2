@@ -1,9 +1,8 @@
 package com.moayo.server.dao;
 
-import com.moayo.server.model.DogamListModel;
+import com.moayo.server.model.DogamInfoModel;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,24 +15,24 @@ public interface DogamListDao {
     /**
      * 도감 정보를 insert한다.
      * @param book insert하고자 하는 도감의 정보가 담긴 model.
-     * @see DogamListModel
+     * @see DogamInfoModel
      * @return insert row.
      */
-    long insertDogam(DogamListModel book);
+    long insertDogam(DogamInfoModel book);
 
     /**
      * 도감 정보를 update 한다.
      * @param book update하고자 하는 도감의 정보가 담긴 model.
      * @return update row.
      */
-    long updateDogam(DogamListModel book);
+    long updateDogam(DogamInfoModel book);
 
     /**
      * 도감 정보를 model값 기준으로 삭제한다.
      * @param book 삭제하고자 하는 도감의 정보가 담긴 model.
      * @return delete row.
      */
-    long deleteDogamByModel(DogamListModel book);
+    long deleteDogamByModel(DogamInfoModel book);
 
     /**
      * 도감 정보를 도감 id기준으로 삭제한다.
@@ -46,27 +45,27 @@ public interface DogamListDao {
      * @param id 가져오고자 하는 도감의 id값
      * @return 가져온 도감의 model.
      */
-    DogamListModel getDogamById(int id);
+    DogamInfoModel getDogamById(int id);
 
     /**
      * 모든 도감 정보를 가져온다.
      * @return 모든 도감의 model을 List에 담아 return.
      */
-    List<DogamListModel> getAllDogam();
+    List<DogamInfoModel> getAllDogam();
 
     /**
      * 특정 도감 정보를 작성자 기준으로 가져온다.
      * @param writer 작성자 nickname.
      * @return 도감 model이 담긴 List.
      */
-    List<DogamListModel> getDogamByWriterName(String writer);
+    List<DogamInfoModel> getDogamByWriterName(String writer);
 
     /**
      * 설명란의 설명중 특정 키워드가 포함된 도감을 가져온다.
      * @param description 찾고자 하는 키워드.
      * @return 도감 model이 담긴 List.
      */
-    List<DogamListModel> getDogamByDescriptionSearch(String description);
+    List<DogamInfoModel> getDogamByDescriptionSearch(String description);
 
     /**
      * 특정 도감의 like를 1 올린다.

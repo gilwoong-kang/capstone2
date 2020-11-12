@@ -22,7 +22,7 @@ public interface CategoryPostDao {
      * 여러개의 카테고리 - 게시물 정보를 insert 한다.
      * @param categoryPostModels 카테고리 - 게시물 정보가 담기는 model의 Array.
      */
-    void insertAll(CategoryPostModel[] categoryPostModels);
+    long insertAll(CategoryPostModel[] categoryPostModels);
 
     /**
      * 특정 도감과 관련된 카테고리 - 게시물 정보를 삭제한다.

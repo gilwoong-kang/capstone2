@@ -4,25 +4,25 @@
 
 <mapper namespace="com.moayo.server.dao.DogamListDao">
 
-    <select id="getDogamById" resultType="com.moayo.server.model.DogamListModel">
+    <select id="getDogamById" resultType="com.moayo.server.model.DogamInfoModel">
         select * from tb_dogamList where co_dogamId=#{id};
     </select>
-    <select id="getAllDogam" resultType="com.moayo.server.model.DogamListModel">
+    <select id="getAllDogam" resultType="com.moayo.server.model.DogamInfoModel">
         select * from tb_dogamList;
     </select>
-    <select id="getDogamByWriterName" resultType="com.moayo.server.model.DogamListModel" parameterType="String">
+    <select id="getDogamByWriterName" resultType="com.moayo.server.model.DogamInfoModel" parameterType="String">
         select * from tb_dogamList where co_writer = '${value}'
     </select>
-    <select id="getDogamByDescriptionSearch" resultType="com.moayo.server.model.DogamListModel" parameterType="String">
+    <select id="getDogamByDescriptionSearch" resultType="com.moayo.server.model.DogamInfoModel" parameterType="String">
         select * from tb_dogamList where co_description LIKE '%${value}%'
     </select>
-    <insert id="insertDogam" parameterType="com.moayo.server.model.DogamListModel" useGeneratedKeys="true" keyProperty="co_dogamId">
+    <insert id="insertDogam" parameterType="com.moayo.server.model.DogamInfoModel" useGeneratedKeys="true" keyProperty="co_dogamId">
         INSERT INTO `tb_dogamList` (`co_title`, `co_description`, `co_status`,`co_password`,`co_writer`,`co_like`,`co_date`) VALUES (#{co_title},#{co_description},#{co_status},#{co_password},#{co_writer},#{co_like},NOW());
     </insert>
-    <update id="updateDogam" parameterType="com.moayo.server.model.DogamListModel">
+    <update id="updateDogam" parameterType="com.moayo.server.model.DogamInfoModel">
         UPDATE tb_dogamList SET `co_title` = #{co_title}, `co_description` = #{co_description}, `co_status` = #{co_status}, `co_password` = #{co_password}, `co_writer` = #{co_writer}, `co_like` = #{co_like}, `co_date` = NOW() WHERE (`co_dogamId` = #{co_dogamId})
     </update>
-    <delete id="deleteDogamByModel" parameterType="com.moayo.server.model.DogamListModel">
+    <delete id="deleteDogamByModel" parameterType="com.moayo.server.model.DogamInfoModel">
         DELETE FROM tb_dogamList WHERE (`co_dogamId` = #{co_dogamId});
     </delete>
     <delete id="deleteDogamById" parameterType="int">

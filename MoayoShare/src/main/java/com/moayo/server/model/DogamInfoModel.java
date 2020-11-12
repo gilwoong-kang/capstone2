@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  *
  * @author gilwoongkang
  * */
-public class DogamListModel {
+public class DogamInfoModel {
     /** 도감이 유니크하게 가지는 값. */
     private int co_dogamId;
 
@@ -48,7 +48,7 @@ public class DogamListModel {
     /**
      * Constructor. 모든 필드값에 대함.
      * */
-    public DogamListModel(int co_dogamId, String co_title, String co_description, int co_status, String co_password, String co_writer, int co_like) {
+    public DogamInfoModel(int co_dogamId, String co_title, String co_description, int co_status, String co_password, String co_writer, int co_like) {
         this.co_dogamId = co_dogamId;
         this.co_title = co_title;
         this.co_description = co_description;
@@ -60,7 +60,7 @@ public class DogamListModel {
     /**
      * 도감 id를 제외한 Constructor. 도감 id는 디비에서 가져와서 이용하거나 로직에서 따로 이용한다.
      * */
-    public DogamListModel(String co_title, String co_description, int co_status, String co_password, String co_writer, int co_like) {
+    public DogamInfoModel(String co_title, String co_description, int co_status, String co_password, String co_writer, int co_like) {
         this.co_title = co_title;
         this.co_description = co_description;
         this.co_status = co_status;
@@ -70,16 +70,16 @@ public class DogamListModel {
     }
 
     /**
-     * 빈 DogamListModel 생성.
+     * 빈 DogamInfoModel 생성.
      * */
-    public DogamListModel() {
+    public DogamInfoModel() {
 
     }
 
     /**
      * 도감의 제목만 부여된 객체 생성. 주로 오류값을 전달할 때 이용한다.
      * */
-    public DogamListModel(String co_title) {
+    public DogamInfoModel(String co_title) {
         this.co_title = co_title;
     }
 
@@ -156,7 +156,7 @@ public class DogamListModel {
      * */
     @Override
     public String toString() {
-        return "DogamListModel{" +
+        return "DogamInfoModel{" +
                 "co_dogamId=" + co_dogamId +
                 ", co_title='" + co_title + '\'' +
                 ", co_description='" + co_description + '\'' +

@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import util.Exception.getDogamDBException;
 
 import java.util.List;
 
@@ -32,8 +31,8 @@ public class ReadService {
 
     public boolean isDogam(int dogamId){
         try {
-            DogamListModel dogamListModel = dogamListDao.getDogamById(dogamId);
-            if(dogamListModel == null){
+            DogamInfoModel dogamInfoModel = dogamListDao.getDogamById(dogamId);
+            if(dogamInfoModel == null){
                 logger.warn("{} dogam is NOT EXIST.",dogamId);
                 return false;
             }
@@ -48,7 +47,7 @@ public class ReadService {
     public DogamModel getDogam(int dogamId){
         DogamModel dogamModel = new DogamModel();
         try{
-            dogamModel.setDogamListModel(dogamListDao.getDogamById(dogamId));
+            dogamModel.setDogamInfoModel(dogamListDao.getDogamById(dogamId));
             dogamModel.setCategoryModels(categoryDao.getCategoryByDogamId(dogamId));
 
             CategoryHashModel[] categoryHashModels = categoryHashDao.getByDogamId(dogamId);
@@ -68,7 +67,7 @@ public class ReadService {
                 hashtagModels[i] = new HashtagModel(categoryHashModels[i].getco_hashtag());
             }
             dogamModel.setHashtagModels(hashtagModels);
-            if(dogamModel.getDogamListModel() != null) logger.info(dogamModel.getDogamListModel().toString());
+            if(dogamModel.getDogamInfoModel() != null) logger.info(dogamModel.getDogamInfoModel().toString());
             else logger.warn("dogam data NULL");
             return dogamModel;
         }catch (MyBatisSystemException dbConnectionException){
@@ -78,13 +77,13 @@ public class ReadService {
         }
     }
 
-    public List<DogamListModel> getDogamList() throws NullPointerException{
+    public List<DogamInfoModel> getDogamList() throws NullPointerException{
         try{
-            List<DogamListModel> dogamListModels = dogamListDao.getAllDogam();
-            if(dogamListModels == null){
+            List<DogamInfoModel> dogamInfoModels = dogamListDao.getAllDogam();
+            if(dogamInfoModels == null){
                 throw new NullPointerException();
             }
-            return dogamListModels;
+            return dogamInfoModels;
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
@@ -103,7 +102,7 @@ public class ReadService {
         }
     }
 
-    public List<DogamListModel> getDogamByWriterName(String writer){
+    public List<DogamInfoModel> getDogamByWriterName(String writer){
         try{
             return dogamListDao.getDogamByWriterName(writer);
         }catch (MyBatisSystemException e){
@@ -112,7 +111,7 @@ public class ReadService {
             return null;
         }
     }
-    public List<DogamListModel> getDogamByKeyword(String keyword){
+    public List<DogamInfoModel> getDogamByKeyword(String keyword){
         try{
             return dogamListDao.getDogamByDescriptionSearch(keyword);
         }catch (MyBatisSystemException e){

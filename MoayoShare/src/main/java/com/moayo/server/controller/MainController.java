@@ -58,11 +58,11 @@ public class MainController {
     /**
      * 현재 데이터베이스에 존재하는 모든 도감에 관한 정보를 반환한다.
      * @return 도감 모델을 리스트에 담아 리턴한다. 도감 정보는 id/title/description/status/password/writer/like/date이다.
-     * @see DogamListModel
+     * @see DogamInfoModel
      * description에 소개와 함께 이미지 URL이 함께 전달한다.
      * */
     @RequestMapping(value = "/getDogamList",method = RequestMethod.GET)
-    public List<DogamListModel> getDogamList(){
+    public List<DogamInfoModel> getDogamList(){
         logger.info("Request getDogamList");
         try{
             return readService.getDogamList();
@@ -74,7 +74,7 @@ public class MainController {
 
     /**
      * dogamId 값과 일치하는 데이터베이스 내부 dogam의 like 수치를 하나 올린다.
-     * @param dogamId 도감의 id를 입력받는다.
+     * @param dogamId
      * @return 올바르게 처리 되었다면 0000을, 오류가 있다면 0001을 도감 id와 함께 리턴한다.
      * */
     @RequestMapping(value = "/dogamLike", method = RequestMethod.GET)
@@ -92,7 +92,7 @@ public class MainController {
     }
     /**
      * dogamId 값과 일치하는 데이터베이스 내부 dogam의 like 수치를 하나 내린다.
-     * @param dogamId 도감의 id를 입력받는다.
+     * @param dogamId
      * @return 올바르게 처리 되었다면 0000을, 오류가 있다면 0001을 도감의 id와 함 리턴한다.
      * */
     @RequestMapping(value = "/dogamDislike", method = RequestMethod.GET)
@@ -117,7 +117,7 @@ public class MainController {
     public DogamModel getDogam(HttpServletRequest req,HttpServletResponse res,@RequestParam int dogamId){
         logger.info(req.getRequestedSessionId()+" : "+dogamId);
         DogamModel dogamModel = readService.getDogam(dogamId);
-        logger.info("{}/{} : Dogam Out.",dogamModel.getDogamListModel().getCo_dogamId(),dogamModel.getDogamListModel().getCo_title());
+        logger.info("{}/{} : Dogam Out.",dogamModel.getDogamInfoModel().getCo_dogamId(),dogamModel.getDogamInfoModel().getCo_title());
         return dogamModel;  // 도감 없을때 핸들링 안됨.
     }
 
@@ -133,9 +133,9 @@ public class MainController {
         try{
             cudService.insertData(dogamModel);
         }catch (Exception e){
-            return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamModel.getDogamListModel().getCo_dogamId());
+            return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamModel.getDogamInfoModel().getCo_dogamId());
         }
-        return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamModel.getDogamListModel().getCo_dogamId());
+        return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamModel.getDogamInfoModel().getCo_dogamId());
     }
 
     /**
@@ -158,17 +158,17 @@ public class MainController {
      * @return 만일 존재하지 않는다면 0001의 코드값을 list 첫번째 객체 타이틀에 담아 리턴시킨다.
      * */
     @RequestMapping(value = "/getDogamWriterName",method = RequestMethod.GET)
-    public List<DogamListModel> getDogamByUserName(@RequestParam String writer){
+    public List<DogamInfoModel> getDogamByUserName(@RequestParam String writer){
         logger.info(writer);
-        List<DogamListModel> dogamListModels =  readService.getDogamByWriterName(writer);
-        logger.debug("Writer's Dogam search success : {}",dogamListModels.size());
-        if(dogamListModels.isEmpty() || dogamListModels == null){
+        List<DogamInfoModel> dogamInfoModels =  readService.getDogamByWriterName(writer);
+        logger.debug("Writer's Dogam search success : {}", dogamInfoModels.size());
+        if(dogamInfoModels.isEmpty() || dogamInfoModels == null){
             logger.warn("Writer is NOT EXIST : {}" , writer);
-            List<DogamListModel> errorList = new ArrayList<DogamListModel>();
-            errorList.add(new DogamListModel(SEARCHERRORMESSAGE));
+            List<DogamInfoModel> errorList = new ArrayList<DogamInfoModel>();
+            errorList.add(new DogamInfoModel(SEARCHERRORMESSAGE));
             return errorList;
         }
-        return dogamListModels;
+        return dogamInfoModels;
     }
 
     /**
@@ -177,16 +177,16 @@ public class MainController {
      * @return 만일 존재하지 않는다면 0001의 코드값을 list 첫번째 객체 타이틀에 담아 리턴시킨다.
      * */
     @RequestMapping(value = "/getDogamKeyword" , method = RequestMethod.GET)
-    public List<DogamListModel> getDogamByKeyword(@RequestParam String keyword){
+    public List<DogamInfoModel> getDogamByKeyword(@RequestParam String keyword){
         logger.info("Keyword : " + keyword);
-        List<DogamListModel> dogamListModels =  readService.getDogamByKeyword(keyword);
-        logger.debug("Keyword Search result : {}",dogamListModels.size());
-        if(dogamListModels.isEmpty() || dogamListModels == null){
+        List<DogamInfoModel> dogamInfoModels =  readService.getDogamByKeyword(keyword);
+        logger.debug("Keyword Search result : {}", dogamInfoModels.size());
+        if(dogamInfoModels.isEmpty() || dogamInfoModels == null){
             logger.warn("Keyword is NOT Find : {}" ,keyword);
-            List<DogamListModel> errorList = new ArrayList<DogamListModel>();
-            errorList.add(new DogamListModel(SEARCHERRORMESSAGE));
+            List<DogamInfoModel> errorList = new ArrayList<DogamInfoModel>();
+            errorList.add(new DogamInfoModel(SEARCHERRORMESSAGE));
             return errorList;
         }
-        return dogamListModels;
+        return dogamInfoModels;
     }
 }
