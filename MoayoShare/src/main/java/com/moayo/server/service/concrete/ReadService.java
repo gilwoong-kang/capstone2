@@ -29,7 +29,7 @@ public class ReadService {
         this.logger = LogManager.getLogger();
     }
 
-    public boolean isDogam(int dogamId){
+    public boolean isDogamExist(int dogamId){
         try {
             DogamInfoModel dogamInfoModel = dogamListDao.getDogamById(dogamId);
             if(dogamInfoModel == null){
@@ -48,25 +48,31 @@ public class ReadService {
         DogamModel dogamModel = new DogamModel();
         try{
             dogamModel.setDogamInfoModel(dogamListDao.getDogamById(dogamId));
+            logger.debug("{} dogam info read. : {}",dogamId,dogamModel.getDogamInfoModel().getCo_title());
             dogamModel.setCategoryModels(categoryDao.getCategoryByDogamId(dogamId));
-
+            logger.debug("{} category read. : {}",dogamId,dogamModel.getCategoryModels().length);
             CategoryHashModel[] categoryHashModels = categoryHashDao.getByDogamId(dogamId);
             dogamModel.setCategoryHashModels(categoryHashModels);
+            logger.debug("{} category - hash read. : {}",dogamId,categoryHashModels.length);
 
             CategoryPostModel[] categoryPostModels = categoryPostDao.getByDogamId(dogamId);
             dogamModel.setCategoryPostModels(categoryPostDao.getByDogamId(dogamId));
+            logger.debug("{} category - post read. : {}",dogamId,categoryPostModels.length);
 
             PostModel[] postModels = new PostModel[categoryPostModels.length];
             for(int i = 0;i<postModels.length;i++){
                 postModels[i] = postDao.getPost(categoryPostModels[i].getCo_postId());
             }
             dogamModel.setPostModels(postModels);
+            logger.debug("{} post read. : {}",dogamId,postModels.length);
 
             HashtagModel[] hashtagModels = new HashtagModel[categoryHashModels.length];
             for(int i =0 ;i<hashtagModels.length;i++){
                 hashtagModels[i] = new HashtagModel(categoryHashModels[i].getco_hashtag());
             }
             dogamModel.setHashtagModels(hashtagModels);
+            logger.debug("{} hash read. : {}",dogamId,hashtagModels.length);
+
             if(dogamModel.getDogamInfoModel() != null) logger.info(dogamModel.getDogamInfoModel().toString());
             else logger.warn("dogam data NULL");
             return dogamModel;
@@ -80,6 +86,7 @@ public class ReadService {
     public List<DogamInfoModel> getDogamList() throws NullPointerException{
         try{
             List<DogamInfoModel> dogamInfoModels = dogamListDao.getAllDogam();
+            logger.debug("All dogam Info read. : {}",dogamInfoModels.size());
             if(dogamInfoModels == null){
                 throw new NullPointerException();
             }
@@ -104,7 +111,9 @@ public class ReadService {
 
     public List<DogamInfoModel> getDogamByWriterName(String writer){
         try{
-            return dogamListDao.getDogamByWriterName(writer);
+            List<DogamInfoModel> dogamInfoModels = dogamListDao.getDogamByWriterName(writer);
+            logger.debug("{} writer's dogam read : {}",writer,dogamInfoModels.size());
+            return dogamInfoModels;
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
@@ -113,7 +122,9 @@ public class ReadService {
     }
     public List<DogamInfoModel> getDogamByKeyword(String keyword){
         try{
-            return dogamListDao.getDogamByDescriptionSearch(keyword);
+            List<DogamInfoModel> dogamInfoModels = dogamListDao.getDogamByDescriptionSearch(keyword);
+            logger.debug("{} keyword dogam info : {}",keyword,dogamInfoModels.size());
+            return dogamInfoModels;
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());

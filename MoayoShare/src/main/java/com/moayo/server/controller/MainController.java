@@ -146,7 +146,7 @@ public class MainController {
     @RequestMapping(value = "/deleteDogam",method = RequestMethod.GET)
     public JSONReturn deleteDogam(@RequestParam int dogamId){
         logger.info("Delete Dogam ID : " + dogamId);
-        if(!readService.isDogam(dogamId))
+        if(!readService.isDogamExist(dogamId))
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
         readService.deleteDogam(dogamId);
         return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
