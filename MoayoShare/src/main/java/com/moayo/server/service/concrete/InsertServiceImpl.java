@@ -42,33 +42,24 @@ public class InsertServiceImpl implements InsertService {
      * @see DogamModel
      */
     public void insertData(DogamModel dogamModel){
-        // 각 테이블별 모델값으로 추출.
-        DogamInfoModel dogamInfoModel = dogamModel.getDogamInfoModel();
-        CategoryModel[] categoryModels = dogamModel.getCategoryModels();
-        HashtagModel[] hashtagModels = dogamModel.getHashtagModels();
-        PostModel[] postModels = dogamModel.getPostModels();
-        CategoryHashModel[] categoryHashModels = dogamModel.getCategoryHashModels();
-        CategoryPostModel[] categoryPostModels = dogamModel.getCategoryPostModels();
-
         try{
-            if(dogamListDao.insertDogam(dogamInfoModel) == 0) logger.error("{} : DogamList Insert Error"); // category 재 라벨링 수행 이후 insert
-            categoryInsert(categoryModels, dogamInfoModel,categoryPostModels,categoryHashModels);
-
-            int postrows = postInsert(postModels,categoryPostModels);
-            logger.debug("{} post insert success : {}",dogamInfoModel,postrows);
-            if(hashtagModels.length != 0){
-                int hashtagRows = hashtagInsert(hashtagModels);
-                logger.debug("{} hashtag insert success : {}",dogamInfoModel,hashtagRows);
+            if(dogamListDao.insertDogam(dogamModel.getDogamInfoModel()) == 0) logger.error("{} : DogamList Insert Error"); // category 재 라벨링 수행 이후 insert
+            categoryInsert(dogamModel.getCategoryModels(), dogamModel.getDogamInfoModel(),dogamModel.getCategoryPostModels(),dogamModel.getCategoryHashModels());
+            int postrows = postInsert(dogamModel.getPostModels(),dogamModel.getCategoryPostModels());
+            logger.debug("{} post insert success : {}",dogamModel.getDogamInfoModel(),postrows);
+            if(dogamModel.getHashtagModels().length != 0){
+                int hashtagRows = hashtagInsert(dogamModel.getHashtagModels());
+                logger.debug("{} hashtag insert success : {}",dogamModel.getDogamInfoModel(),hashtagRows);
             }
-            if(categoryPostModels.length != 0) {
-                long rows = categoryPostDao.insertAll(categoryPostModels);
-                logger.debug("{} category post insert success : {}",dogamInfoModel,rows);
+            if(dogamModel.getCategoryPostModels().length != 0) {
+                long rows = categoryPostDao.insertAll(dogamModel.getCategoryPostModels());
+                logger.debug("{} category post insert success : {}",dogamModel.getDogamInfoModel(),rows);
             }
-            if(categoryHashModels.length != 0){
-                long rows = categoryHashDao.insertAll(categoryHashModels);
-                logger.debug("{} category hash insert success : {}",dogamInfoModel,rows);
+            if(dogamModel.getCategoryHashModels().length != 0){
+                long rows = categoryHashDao.insertAll(dogamModel.getCategoryHashModels());
+                logger.debug("{} category hash insert success : {}",dogamModel.getDogamInfoModel(),rows);
             }
-            logger.info("Insert Success {} : {}", dogamInfoModel.getCo_dogamId(), dogamInfoModel.getCo_title());
+            logger.info("Insert Success {} : {}", dogamModel.getDogamInfoModel().getCo_dogamId(), dogamModel.getDogamInfoModel().getCo_title());
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
@@ -119,9 +110,6 @@ public class InsertServiceImpl implements InsertService {
         return count;
     }
 
-    /**
-     * @// TODO: 2020/11/11 exception add. 해야함.
-     */
     private int postInsert(PostModel[] postModels,CategoryPostModel[] categoryPostModels){
         int count = 0;
         for(PostModel postModel : postModels){
@@ -138,10 +126,6 @@ public class InsertServiceImpl implements InsertService {
         return count;
     }
 
-    /**
-     * 카테고리에 대해 재 라벨링 수행 이후 insert 수행한다.
-     * @return <재라벨링된 id,카테고리정보>
-     */
     private Map<Integer,CategoryModel> categoryInsert(CategoryModel[] categoryModels, DogamInfoModel dogamInfoModel,
                                                       CategoryPostModel[] categoryPostModels, CategoryHashModel[] categoryHashModels){
         Map<Integer,CategoryModel> categoryModelMap = new HashMap<Integer,CategoryModel>();
@@ -216,4 +200,5 @@ public class InsertServiceImpl implements InsertService {
         logger.debug("Relabeling Category data success : {}",labelCategory.size() );
         return labelCategory;
     }
+
 }

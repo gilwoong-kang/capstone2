@@ -1,12 +1,7 @@
 package com.moayo.server.model;
 
-/**
- * @author gilwoongkang
- */
 public class CategoryModel {
-    /**
-     *
-     */
+
     private int co_categoryId;
     private int co_dogamId;
     private String co_name;
@@ -34,8 +29,7 @@ public class CategoryModel {
         this.co_level = co_level;
     }
 
-    public CategoryModel() {
-    }
+    public CategoryModel() { }
 
     public int getCo_dogamId() {
         return co_dogamId;

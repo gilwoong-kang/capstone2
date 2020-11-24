@@ -1,6 +1,5 @@
 package com.moayo.server.controller;
 
-
 import com.moayo.server.model.*;
 import com.moayo.server.model.responseCode.ResponseCode;
 import com.moayo.server.service.InsertService;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import util.Exception.NoDogamIdException;
 import util.JSONReturn;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -21,36 +19,18 @@ import java.util.List;
 /**
  * @author gilwoong kang
  * */
-
 @RestController
 public class MainController {
-    /**
-     * 도감을 읽기를 비롯한 일반적 서비스 제공을 위한 객체.
-     */
+
     @Autowired
     ReadService readService;
-    /**
-     * insert의 도구들이 들어있는 객체.
-     */
     @Autowired
-    InsertService cudService;
+    InsertService insertService;
 
-    /**
-     * 로그 사용을 위한 객체.
-     * log4j2 기반.
-     * */
     private static Logger logger = null;
-
-    /**
-     * 검색 관련 실패시 에러 메시지.
-     * */
     private final String SEARCHERRORMESSAGE = "{0001,\"search result is nothing.\"}";
 
-    /**
-     * DI시 logger 객체 함께 주입
-     * */
     public MainController(){
-        // set Logger
         System.setProperty("log4j.configurationFile","log4j2.xml");
         logger = LogManager.getLogger();
     }
@@ -63,11 +43,12 @@ public class MainController {
      * */
     @RequestMapping(value = "/getDogamList",method = RequestMethod.GET)
     public List<DogamInfoModel> getDogamList(){
-        logger.info("Request getDogamList");
+        logger.debug("Request getDogamList");
         try{
             return readService.getDogamList();
         }catch (NullPointerException e){
             logger.error("Service return is NULL.");
+            logger.error(e.getMessage());
             return null;
         }
     }
@@ -81,7 +62,7 @@ public class MainController {
     public JSONReturn like(@RequestParam int dogamId){
         try{
             logger.info("DogamId : " + dogamId + " Like.");
-            cudService.like(dogamId);
+            insertService.like(dogamId);
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
         }catch (NoDogamIdException e){
             logger.error("Dogam Id Error : " + dogamId);
@@ -90,6 +71,7 @@ public class MainController {
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
         }
     }
+
     /**
      * dogamId 값과 일치하는 데이터베이스 내부 dogam의 like 수치를 하나 내린다.
      * @param dogamId
@@ -99,7 +81,7 @@ public class MainController {
     public JSONReturn disLike(@RequestParam int dogamId){
         try{
             logger.info("DogamId : " + dogamId + " DisLike.");
-            cudService.disLike(dogamId);
+            insertService.disLike(dogamId);
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
         }catch (NoDogamIdException e){
             logger.error("Dogam Id Error : " + dogamId);
@@ -108,6 +90,7 @@ public class MainController {
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
         }
     }
+
     /**
      * dogamId를 입력받아 데이터베이스에 조회하여 dogam 정보를 반환한다.
      * @param dogamId 도감의 id를 입력받는다.
@@ -131,7 +114,7 @@ public class MainController {
     public JSONReturn shareDogam(@RequestBody DogamModel dogamModel){
         logger.info(dogamModel.toString());
         try{
-            cudService.insertData(dogamModel);
+            insertService.insertData(dogamModel);
         }catch (Exception e){
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamModel.getDogamInfoModel().getCo_dogamId());
         }

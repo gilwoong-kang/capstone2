@@ -1,35 +1,11 @@
 package com.moayo.server.model;
 
-/**
- * 게시물에 이용되는 정보 modeling.
- *
- * @author gilwoongkang
- */
 public class PostModel {
-    /**
-     * 데이터베이스에서 이용되는 게시물의 id값.
-     */
+
     private int co_postId;
-
-    /**
-     * 게시물의 원본 url.
-     */
     private String co_postUrl;
-
-    /**
-     * 게시물에서 보이는 image의 url.
-     */
     private String co_imageUrl;
-
-    /**
-     * 게시물에 달려있는 해시태그정보
-     * 해당 해시태그 정보는 #을 포함하여 해시태그 전체의 정보를 하나의 String 값으로 가짐.
-     */
     private String co_hashtag;
-
-    /**
-     * 게시물의 좋아요 수.
-     */
     private int co_like;
 
     public PostModel(int co_postId, String co_postUrl, String co_imageUrl, String co_hashtag, int co_like) {
@@ -47,8 +23,7 @@ public class PostModel {
         this.co_like = co_like;
     }
 
-    public PostModel() {
-    }
+    public PostModel() { }
 
     /**
      * get/set 메소드.

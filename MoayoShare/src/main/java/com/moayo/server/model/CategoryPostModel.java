@@ -1,25 +1,9 @@
 package com.moayo.server.model;
 
-/**
- * 카테고리와 게시물은 데이터베이스에서 n:m 관계를 가지기에 추가 테이블로 1:n관계로 표현.
- * 해당 테이블값을 매핑하기 위한 model.
- *
- * @author gilwoongkang
- */
 public class CategoryPostModel {
-    /**
-     * 카테고리-포스트 정보가 속한 도감의 id값.
-     */
+
     private int co_dogamId;
-
-    /**
-     * 게시물과 연결된 카테고리의 id.
-     */
     private int co_categoryId;
-
-    /**
-     * 카테고리와 연결된 게시물의 id.
-     */
     private int co_postId;
 
     /**

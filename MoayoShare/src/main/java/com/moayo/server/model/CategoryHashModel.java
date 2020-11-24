@@ -6,13 +6,9 @@ package com.moayo.server.model;
  * @author gilwoongkang
  * */
 public class CategoryHashModel {
-    /** 해당 카테고리 및 해시값이 속한 도감의 id */
+
     private int co_dogamId;
-
-    /** 해시태그과 연결된 카테고리의 id */
     private int co_categoryId;
-
-    /** 카테고리와 연결된 해시태그 */
     private String co_hashtag;
 
     /**
@@ -24,8 +20,7 @@ public class CategoryHashModel {
         this.co_hashtag = co_hashtag;
     }
 
-    public CategoryHashModel() {
-    }
+    public CategoryHashModel() { }
 
     /**
      * get/set 메소드

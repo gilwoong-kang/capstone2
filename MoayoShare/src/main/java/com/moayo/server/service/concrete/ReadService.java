@@ -54,18 +54,15 @@ public class ReadService {
             CategoryHashModel[] categoryHashModels = categoryHashDao.getByDogamId(dogamId);
             dogamModel.setCategoryHashModels(categoryHashModels);
             logger.debug("{} category - hash read. : {}",dogamId,categoryHashModels.length);
-
             CategoryPostModel[] categoryPostModels = categoryPostDao.getByDogamId(dogamId);
             dogamModel.setCategoryPostModels(categoryPostDao.getByDogamId(dogamId));
             logger.debug("{} category - post read. : {}",dogamId,categoryPostModels.length);
-
             PostModel[] postModels = new PostModel[categoryPostModels.length];
             for(int i = 0;i<postModels.length;i++){
                 postModels[i] = postDao.getPost(categoryPostModels[i].getCo_postId());
             }
             dogamModel.setPostModels(postModels);
             logger.debug("{} post read. : {}",dogamId,postModels.length);
-
             HashtagModel[] hashtagModels = new HashtagModel[categoryHashModels.length];
             for(int i =0 ;i<hashtagModels.length;i++){
                 hashtagModels[i] = new HashtagModel(categoryHashModels[i].getco_hashtag());
