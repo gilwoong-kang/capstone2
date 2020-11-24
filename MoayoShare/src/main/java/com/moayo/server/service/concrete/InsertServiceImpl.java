@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import util.Exception.DogamInsertException;
 import util.Exception.NoDogamIdException;
 
 import java.util.*;
@@ -52,8 +51,7 @@ public class InsertServiceImpl implements InsertService {
         CategoryPostModel[] categoryPostModels = dogamModel.getCategoryPostModels();
 
         try{
-            if(dogamListDao.insertDogam(dogamInfoModel) == 0) throw new DogamInsertException("DogamList Insert Error");
-            // category 재 라벨링 수행 이후 insert
+            if(dogamListDao.insertDogam(dogamInfoModel) == 0) logger.error("{} : DogamList Insert Error"); // category 재 라벨링 수행 이후 insert
             categoryInsert(categoryModels, dogamInfoModel,categoryPostModels,categoryHashModels);
 
             int postrows = postInsert(postModels,categoryPostModels);
@@ -75,8 +73,6 @@ public class InsertServiceImpl implements InsertService {
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
             throw e;
-        } catch (DogamInsertException e) {
-            logger.error(e.getMessage());
         }
     }
 
