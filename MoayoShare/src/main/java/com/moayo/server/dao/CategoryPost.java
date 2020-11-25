@@ -2,7 +2,7 @@ package com.moayo.server.dao;
 
 import com.moayo.server.model.CategoryPostModel;
 
-public interface CategoryPostDao {
+public interface CategoryPost {
 
     long insertCategoryPost(CategoryPostModel categoryPostModel);
     long insertAll(CategoryPostModel[] categoryPostModels);

@@ -16,17 +16,17 @@ import java.util.*;
 public class InsertServiceImpl implements InsertService {
 
     @Autowired
-    DogamListDao dogamListDao;
+    DogamList dogamList;
     @Autowired
-    CategoryDao categoryDao;
+    Category category;
     @Autowired
-    PostDao postDao;
+    Post post;
     @Autowired
-    HashtagDao hashtagDao;
+    Hashtag hashtag;
     @Autowired
-    CategoryPostDao categoryPostDao;
+    CategoryPost categoryPost;
     @Autowired
-    CategoryHashDao categoryHashDao;
+    CategoryHash categoryHash;
 
     private Logger logger;
 
@@ -43,7 +43,7 @@ public class InsertServiceImpl implements InsertService {
      */
     public void insertData(DogamModel dogamModel){
         try{
-            if(dogamListDao.insertDogam(dogamModel.getDogamInfoModel()) == 0) logger.error("{} : DogamList Insert Error"); // category 재 라벨링 수행 이후 insert
+            if(dogamList.insertDogam(dogamModel.getDogamInfoModel()) == 0) logger.error("{} : DogamList Insert Error"); // category 재 라벨링 수행 이후 insert
             categoryInsert(dogamModel.getCategoryModels(), dogamModel.getDogamInfoModel(),dogamModel.getCategoryPostModels(),dogamModel.getCategoryHashModels());
             int postrows = postInsert(dogamModel.getPostModels(),dogamModel.getCategoryPostModels());
             logger.debug("{} post insert success : {}",dogamModel.getDogamInfoModel(),postrows);
@@ -52,11 +52,11 @@ public class InsertServiceImpl implements InsertService {
                 logger.debug("{} hashtag insert success : {}",dogamModel.getDogamInfoModel(),hashtagRows);
             }
             if(dogamModel.getCategoryPostModels().length != 0) {
-                long rows = categoryPostDao.insertAll(dogamModel.getCategoryPostModels());
+                long rows = categoryPost.insertAll(dogamModel.getCategoryPostModels());
                 logger.debug("{} category post insert success : {}",dogamModel.getDogamInfoModel(),rows);
             }
             if(dogamModel.getCategoryHashModels().length != 0){
-                long rows = categoryHashDao.insertAll(dogamModel.getCategoryHashModels());
+                long rows = categoryHash.insertAll(dogamModel.getCategoryHashModels());
                 logger.debug("{} category hash insert success : {}",dogamModel.getDogamInfoModel(),rows);
             }
         }catch (MyBatisSystemException e){
@@ -70,7 +70,7 @@ public class InsertServiceImpl implements InsertService {
     @Override
     public void like(int dogamId) throws NoDogamIdException{
         try{
-            if(dogamListDao.like(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
+            if(dogamList.like(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR. {}",e.getMessage());
             throw e;
@@ -81,7 +81,7 @@ public class InsertServiceImpl implements InsertService {
     @Override
     public void disLike(int dogamId) throws NoDogamIdException{
         try{
-            if(dogamListDao.disLike(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
+            if(dogamList.disLike(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
@@ -94,7 +94,7 @@ public class InsertServiceImpl implements InsertService {
         int count = 0;
         for(HashtagModel hashtagModel : hashtagModels){
             try{
-                long row = hashtagDao.insertHashtag(hashtagModel);
+                long row = hashtag.insertHashtag(hashtagModel);
                 logger.trace("{} hashtag insert : {}",hashtagModel.getCo_hashtag(),row);
                 count++;
             }catch (Exception e){
@@ -109,7 +109,7 @@ public class InsertServiceImpl implements InsertService {
         int count = 0;
         for(PostModel postModel : postModels){
             int origin = postModel.getCo_postId();
-            long rows = postDao.insertPost(postModel);
+            long rows = post.insertPost(postModel);
             logger.trace("{} post Insert : {}",postModel.getCo_postId(),rows);
             count++;
             for(CategoryPostModel categoryPostModel : categoryPostModels){
@@ -136,19 +136,19 @@ public class InsertServiceImpl implements InsertService {
                     origin = categoryModel.getCo_categoryId();
                     // 루트일때 - 외래키를 해제하여 값을 넣어야 함.
                     if(categoryModel.getCo_categoryId() == categoryModel.getCo_parentCategoryId()){
-                        categoryDao.foreignKeyOFF();
+                        category.foreignKeyOFF();
                         logger.trace("foreignKey Off");
-                        long rows = categoryDao.insertCategory(categoryModel);
-                        categoryDao.foreignKeyON();
+                        long rows = category.insertCategory(categoryModel);
+                        category.foreignKeyON();
                         logger.trace("foreignKey On");
                         categoryModel.setCo_parentCategoryId(categoryModel.getCo_categoryId());
-                        categoryDao.updateCategory(categoryModel);
+                        category.updateCategory(categoryModel);
                         logger.debug("{} Dogam root insert rows : {} ",dogamInfoModel,rows);
                     }
                     // 일반적 경우
                     else{
                         categoryModel.setCo_parentCategoryId(categoryModelMap.get(categoryModel.getCo_parentCategoryId()).getCo_categoryId());
-                        categoryDao.insertCategory(categoryModel);
+                        category.insertCategory(categoryModel);
                         logger.debug("{} category Insert : {}",dogamInfoModel,categoryModel.getCo_categoryId());
                     }
                     categoryModelMap.put(origin,categoryModel);

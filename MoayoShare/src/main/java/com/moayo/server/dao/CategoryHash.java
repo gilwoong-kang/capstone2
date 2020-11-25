@@ -5,7 +5,7 @@ import com.moayo.server.model.CategoryPostModel;
 
 import java.util.List;
 
-public interface CategoryHashDao {
+public interface CategoryHash {
 
     long insertCategoryHashtag(CategoryHashModel categoryHashModel);
     long insertAll(CategoryHashModel[] categoryHashModels);

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moayo.server.dao.CategoryPostDao">
+<mapper namespace="com.moayo.server.dao.CategoryPost">
     <insert id="insertCategoryPost" parameterType="com.moayo.server.model.CategoryPostModel">
         INSERT INTO `MoayoShare`.`tb_categoryPost` (`co_dogamId`, `co_categoryId`, `co_postId`)
         VALUES (${co_dogamId}, ${co_categoryId}, '${co_postId}');

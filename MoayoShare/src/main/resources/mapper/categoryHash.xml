@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moayo.server.dao.CategoryHashDao">
+<mapper namespace="com.moayo.server.dao.CategoryHash">
     <insert id="insertCategoryHashtag" parameterType="com.moayo.server.model.CategoryHashModel">
         INSERT INTO `MoayoShare`.`tb_categoryHashtag` (`co_dogamId`, `co_categoryId`, `co_hashtag`)
         VALUES (${co_dogamId}, ${co_categoryId}, '${co_hashtag}');

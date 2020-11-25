@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DogamListDao {
+public interface DogamList {
 
     long insertDogam(DogamInfoModel book);
     long updateDogam(DogamInfoModel book);

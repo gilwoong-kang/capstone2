@@ -3,7 +3,7 @@ package com.moayo.server.dao;
 import com.moayo.server.model.HashtagModel;
 import java.util.List;
 
-public interface HashtagDao {
+public interface Hashtag {
 
     long insertHashtag(HashtagModel hashtagModel);
     void insertAll(HashtagModel[] hashtagModels);

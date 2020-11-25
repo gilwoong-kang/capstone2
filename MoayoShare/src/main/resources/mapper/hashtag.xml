@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moayo.server.dao.HashtagDao">
+<mapper namespace="com.moayo.server.dao.Hashtag">
     <insert id="insertHashtag" parameterType="com.moayo.server.model.HashtagModel">
         INSERT INTO `tb_hashtag` (`co_hashtag`) VALUES ('${co_hashtag}');
     </insert>

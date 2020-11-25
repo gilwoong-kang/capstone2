@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.moayo.server.dao.PostDao">
+<mapper namespace="com.moayo.server.dao.Post">
     <insert id="insertPost" parameterType="com.moayo.server.model.PostModel" keyProperty="co_postId" useGeneratedKeys="true">
         INSERT INTO `MoayoShare`.`tb_postHavingLike` ( `co_postUrl`, `co_imageUrl`, `co_hashtag`, `co_like`) VALUES ('${co_postUrl}', '${co_imageUrl}',
         '${co_hashtag}', ${co_like});

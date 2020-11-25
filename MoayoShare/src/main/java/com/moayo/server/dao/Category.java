@@ -3,7 +3,7 @@ package com.moayo.server.dao;
 import com.moayo.server.model.CategoryModel;
 
 
-public interface CategoryDao {
+public interface Category {
 
     long insertCategory(CategoryModel categoryModel);
     long updateCategory(CategoryModel categoryModel);
