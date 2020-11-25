@@ -68,6 +68,7 @@ public class MainController {
             logger.error("Dogam Id Error : " + dogamId);
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
         }catch (MyBatisSystemException e){
+            logger.error("Database System Error : {}",e.getStackTrace());
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
         }
     }
@@ -87,6 +88,7 @@ public class MainController {
             logger.error("Dogam Id Error : " + dogamId);
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
         }catch (MyBatisSystemException e){
+            logger.error("Database System Error : {}",e.getStackTrace());
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
         }
     }
@@ -101,7 +103,7 @@ public class MainController {
         logger.info(req.getRequestedSessionId()+" : "+dogamId);
         DogamModel dogamModel = readingService.getDogam(dogamId);
         logger.info("{}/{} : Dogam Out.",dogamModel.getDogamInfoModel().getCo_dogamId(),dogamModel.getDogamInfoModel().getCo_title());
-        return dogamModel;  // 도감 없을때 핸들링 안됨.
+        return dogamModel;
     }
 
     /**
@@ -115,9 +117,11 @@ public class MainController {
         try{
             logger.info(dogamModel.toString());
             insertService.insertData(dogamModel);
-        }catch (Exception e){
+        }catch (MyBatisSystemException e){
+            logger.error("Database System Error : {}",e.getStackTrace());
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamModel.getDogamInfoModel().getCo_dogamId());
         }
+        logger.info("{}/{} : Dogam share Success.",dogamModel.getDogamInfoModel().getCo_dogamId(),dogamModel.getDogamInfoModel().getCo_title());
         return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamModel.getDogamInfoModel().getCo_dogamId());
     }
 
