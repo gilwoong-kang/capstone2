@@ -23,7 +23,7 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    ReadService readService;
+    ReadService readingService;
     @Autowired
     InsertService insertService;
 
@@ -43,9 +43,9 @@ public class MainController {
      * */
     @RequestMapping(value = "/getDogamList",method = RequestMethod.GET)
     public List<DogamInfoModel> getDogamList(){
-        logger.debug("Request getDogamList");
         try{
-            return readService.getDogamList();
+            logger.debug("Request getDogamList");
+            return readingService.getDogamList();
         }catch (NullPointerException e){
             logger.error("Service return is NULL.");
             logger.error(e.getMessage());
@@ -99,7 +99,7 @@ public class MainController {
     @RequestMapping(value = "/getDogam",method = RequestMethod.GET)
     public DogamModel getDogam(HttpServletRequest req,HttpServletResponse res,@RequestParam int dogamId){
         logger.info(req.getRequestedSessionId()+" : "+dogamId);
-        DogamModel dogamModel = readService.getDogam(dogamId);
+        DogamModel dogamModel = readingService.getDogam(dogamId);
         logger.info("{}/{} : Dogam Out.",dogamModel.getDogamInfoModel().getCo_dogamId(),dogamModel.getDogamInfoModel().getCo_title());
         return dogamModel;  // 도감 없을때 핸들링 안됨.
     }
@@ -112,8 +112,8 @@ public class MainController {
      * */
     @RequestMapping(value = "/shareDogam",method = RequestMethod.POST)
     public JSONReturn shareDogam(@RequestBody DogamModel dogamModel){
-        logger.info(dogamModel.toString());
         try{
+            logger.info(dogamModel.toString());
             insertService.insertData(dogamModel);
         }catch (Exception e){
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamModel.getDogamInfoModel().getCo_dogamId());
@@ -129,9 +129,9 @@ public class MainController {
     @RequestMapping(value = "/deleteDogam",method = RequestMethod.GET)
     public JSONReturn deleteDogam(@RequestParam int dogamId){
         logger.info("Delete Dogam ID : " + dogamId);
-        if(!readService.isDogamExist(dogamId))
+        if(!readingService.isDogamExist(dogamId))
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
-        readService.deleteDogam(dogamId);
+        readingService.deleteDogam(dogamId);
         return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
     }
 
@@ -142,8 +142,8 @@ public class MainController {
      * */
     @RequestMapping(value = "/getDogamWriterName",method = RequestMethod.GET)
     public List<DogamInfoModel> getDogamByUserName(@RequestParam String writer){
-        logger.info(writer);
-        List<DogamInfoModel> dogamInfoModels =  readService.getDogamByWriterName(writer);
+        logger.info("Writer dogam searching : {}",writer);
+        List<DogamInfoModel> dogamInfoModels =  readingService.getDogamByWriterName(writer);
         logger.debug("Writer's Dogam search success : {}", dogamInfoModels.size());
         if(dogamInfoModels.isEmpty() || dogamInfoModels == null){
             logger.warn("Writer is NOT EXIST : {}" , writer);
@@ -162,7 +162,7 @@ public class MainController {
     @RequestMapping(value = "/getDogamKeyword" , method = RequestMethod.GET)
     public List<DogamInfoModel> getDogamByKeyword(@RequestParam String keyword){
         logger.info("Keyword : " + keyword);
-        List<DogamInfoModel> dogamInfoModels =  readService.getDogamByKeyword(keyword);
+        List<DogamInfoModel> dogamInfoModels =  readingService.getDogamByKeyword(keyword);
         logger.debug("Keyword Search result : {}", dogamInfoModels.size());
         if(dogamInfoModels.isEmpty() || dogamInfoModels == null){
             logger.warn("Keyword is NOT Find : {}" ,keyword);
