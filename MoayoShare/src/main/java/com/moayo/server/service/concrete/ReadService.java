@@ -36,12 +36,12 @@ public class ReadService {
                 logger.warn("{} dogam is NOT EXIST.",dogamId);
                 return false;
             }
-            return true;
         }catch (MyBatisSystemException e){
             logger.fatal("DB ERROR");
             logger.fatal(e.getMessage());
             return false;
         }
+        return true;
     }
 
     public DogamModel getDogam(int dogamId){
@@ -69,30 +69,28 @@ public class ReadService {
             }
             dogamModel.setHashtagModels(hashtagModels);
             logger.debug("{} hash read. : {}",dogamId,hashtagModels.length);
-
-            if(dogamModel.getDogamInfoModel() != null) logger.info(dogamModel.getDogamInfoModel().toString());
-            else logger.warn("dogam data NULL");
-            return dogamModel;
         }catch (MyBatisSystemException dbConnectionException){
             logger.fatal("DB ERROR");
             logger.fatal(dbConnectionException.getMessage());
             return null;
         }
+        if(dogamModel.getDogamInfoModel() != null) logger.info(dogamModel.getDogamInfoModel().toString());
+        else logger.warn("dogam data NULL");
+        return dogamModel;
     }
 
     public List<DogamInfoModel> getDogamList() throws NullPointerException{
+        List<DogamInfoModel> dogamInfoModels;
         try{
-            List<DogamInfoModel> dogamInfoModels = dogamListDao.getAllDogam();
+            dogamInfoModels = dogamListDao.getAllDogam();
             logger.debug("All dogam Info read. : {}",dogamInfoModels.size());
-            if(dogamInfoModels == null){
-                throw new NullPointerException();
-            }
-            return dogamInfoModels;
+            if(dogamInfoModels == null){ throw new NullPointerException(); }
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
             return null;
         }
+        return dogamInfoModels;
     }
 
     public void deleteDogam(int dogamId){
@@ -102,30 +100,31 @@ public class ReadService {
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
-            return;
         }
     }
 
     public List<DogamInfoModel> getDogamByWriterName(String writer){
+        List<DogamInfoModel> dogamInfoModels;
         try{
-            List<DogamInfoModel> dogamInfoModels = dogamListDao.getDogamByWriterName(writer);
+            dogamInfoModels = dogamListDao.getDogamByWriterName(writer);
             logger.debug("{} writer's dogam read : {}",writer,dogamInfoModels.size());
-            return dogamInfoModels;
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
             return null;
         }
+        return dogamInfoModels;
     }
     public List<DogamInfoModel> getDogamByKeyword(String keyword){
+        List<DogamInfoModel> dogamInfoModels;
         try{
-            List<DogamInfoModel> dogamInfoModels = dogamListDao.getDogamByDescriptionSearch(keyword);
+            dogamInfoModels= dogamListDao.getDogamByDescriptionSearch(keyword);
             logger.debug("{} keyword dogam info : {}",keyword,dogamInfoModels.size());
-            return dogamInfoModels;
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
             return null;
         }
+        return dogamInfoModels;
     }
 }

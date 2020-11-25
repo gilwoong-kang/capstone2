@@ -59,40 +59,35 @@ public class InsertServiceImpl implements InsertService {
                 long rows = categoryHashDao.insertAll(dogamModel.getCategoryHashModels());
                 logger.debug("{} category hash insert success : {}",dogamModel.getDogamInfoModel(),rows);
             }
-            logger.info("Insert Success {} : {}", dogamModel.getDogamInfoModel().getCo_dogamId(), dogamModel.getDogamInfoModel().getCo_title());
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
             throw e;
         }
+        logger.info("Insert Success {} : {}", dogamModel.getDogamInfoModel().getCo_dogamId(), dogamModel.getDogamInfoModel().getCo_title());
     }
 
     @Override
     public void like(int dogamId) throws NoDogamIdException{
         try{
-            if(dogamListDao.like(dogamId) == 0){
-                throw new NoDogamIdException(dogamId + " is NOT EXIST.");
-            }
-            logger.debug("{} like success.",dogamId);
+            if(dogamListDao.like(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
         }catch (MyBatisSystemException e){
-            logger.fatal("Database ERROR.");
-            logger.fatal(e.getMessage());
+            logger.fatal("Database ERROR. {}",e.getMessage());
             throw e;
         }
+        logger.debug("{} like success.",dogamId);
     }
 
     @Override
     public void disLike(int dogamId) throws NoDogamIdException{
         try{
-            if(dogamListDao.disLike(dogamId) == 0){
-                throw new NoDogamIdException(dogamId + " is NOT EXIST.");
-            }
-            logger.debug("{} dislike success.",dogamId);
+            if(dogamListDao.disLike(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
             throw e;
         }
+        logger.debug("{} dislike success.",dogamId);
     }
 
     private int hashtagInsert(HashtagModel[] hashtagModels){

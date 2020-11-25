@@ -63,7 +63,6 @@ public class MainController {
         try{
             logger.info("DogamId : " + dogamId + " Like.");
             insertService.like(dogamId);
-            return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
         }catch (NoDogamIdException e){
             logger.error("Dogam Id Error : " + dogamId);
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
@@ -71,6 +70,7 @@ public class MainController {
             logger.error("Database System Error : {}",e.getStackTrace());
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
         }
+        return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
     }
 
     /**
@@ -83,7 +83,6 @@ public class MainController {
         try{
             logger.info("DogamId : " + dogamId + " DisLike.");
             insertService.disLike(dogamId);
-            return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
         }catch (NoDogamIdException e){
             logger.error("Dogam Id Error : " + dogamId);
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
@@ -91,6 +90,7 @@ public class MainController {
             logger.error("Database System Error : {}",e.getStackTrace());
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
         }
+        return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
     }
 
     /**
