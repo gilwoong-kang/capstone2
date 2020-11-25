@@ -102,6 +102,12 @@ public class MainController {
     public DogamModel getDogam(HttpServletRequest req,HttpServletResponse res,@RequestParam int dogamId){
         logger.info(req.getRequestedSessionId()+" : "+dogamId);
         DogamModel dogamModel = readingService.getDogam(dogamId);
+        if(dogamModel == null){
+            logger.error("get Dogam Error : {}",dogamId);
+            dogamModel = new DogamModel();
+            dogamModel.setDogamInfoModel(new DogamInfoModel("Dogam ERROR."));
+            return dogamModel;
+        }
         logger.info("{}/{} : Dogam Out.",dogamModel.getDogamInfoModel().getCo_dogamId(),dogamModel.getDogamInfoModel().getCo_title());
         return dogamModel;
     }
@@ -133,9 +139,14 @@ public class MainController {
     @RequestMapping(value = "/deleteDogam",method = RequestMethod.GET)
     public JSONReturn deleteDogam(@RequestParam int dogamId){
         logger.info("Delete Dogam ID : " + dogamId);
-        if(!readingService.isDogamExist(dogamId))
+        try{
+            if(!readingService.isDogamExist(dogamId))
+                return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
+            readingService.deleteDogam(dogamId);
+        }catch (MyBatisSystemException e){
+            logger.error("Database System Error : {}",e.getStackTrace());
             return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
-        readingService.deleteDogam(dogamId);
+        }
         return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
     }
 

@@ -100,6 +100,7 @@ public class ReadService {
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
+            throw e;
         }
     }
 
