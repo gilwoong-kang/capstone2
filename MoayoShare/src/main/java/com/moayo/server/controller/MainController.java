@@ -2,8 +2,8 @@ package com.moayo.server.controller;
 
 import com.moayo.server.model.*;
 import com.moayo.server.model.responseCode.ResponseCode;
-import com.moayo.server.service.InsertService;
-import com.moayo.server.service.concrete.ReadService;
+import com.moayo.server.service.DataInsertService;
+import com.moayo.server.service.concrete.DataReadService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.MyBatisSystemException;
@@ -23,12 +23,11 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    ReadService readingService;
+    DataReadService dataReadService;
     @Autowired
-    InsertService insertService;
+    DataInsertService dataInsertService;
 
     private static Logger logger = null;
-    private final String SEARCHERRORMESSAGE = "{0001,\"search result is nothing.\"}";
 
     public MainController(){
         System.setProperty("log4j.configurationFile","log4j2.xml");
@@ -45,7 +44,7 @@ public class MainController {
     public List<DogamInfoModel> getDogamList(){
         try{
             logger.debug("Request getDogamList");
-            return readingService.getDogamList();
+            return dataReadService.getDogamList();
         }catch (NullPointerException e){
             logger.error("Service return is NULL.");
             logger.error(e.getMessage());
@@ -62,15 +61,15 @@ public class MainController {
     public JSONReturn like(@RequestParam int dogamId){
         try{
             logger.info("DogamId : " + dogamId + " Like.");
-            insertService.like(dogamId);
+            dataInsertService.like(dogamId);
         }catch (NoDogamIdException e){
             logger.error("Dogam Id Error : " + dogamId);
-            return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
+            return new JSONReturn(ResponseCode.NOTEXIST_ID.getCode(),dogamId);
         }catch (MyBatisSystemException e){
             logger.error("Database System Error : {}",e.getStackTrace());
-            return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
+            return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamId);
         }
-        return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
+        return new JSONReturn(ResponseCode.SUCCESS.getCode(),dogamId);
     }
 
     /**
@@ -82,15 +81,15 @@ public class MainController {
     public JSONReturn disLike(@RequestParam int dogamId){
         try{
             logger.info("DogamId : " + dogamId + " DisLike.");
-            insertService.disLike(dogamId);
+            dataInsertService.disLike(dogamId);
         }catch (NoDogamIdException e){
             logger.error("Dogam Id Error : " + dogamId);
-            return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
+            return new JSONReturn(ResponseCode.NOTEXIST_ID.getCode(),dogamId);
         }catch (MyBatisSystemException e){
             logger.error("Database System Error : {}",e.getStackTrace());
-            return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
+            return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamId);
         }
-        return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
+        return new JSONReturn(ResponseCode.SUCCESS.getCode(),dogamId);
     }
 
     /**
@@ -101,7 +100,7 @@ public class MainController {
     @RequestMapping(value = "/getDogam",method = RequestMethod.GET)
     public DogamModel getDogam(HttpServletRequest req,HttpServletResponse res,@RequestParam int dogamId){
         logger.info(req.getRequestedSessionId()+" : "+dogamId);
-        DogamModel dogamModel = readingService.getDogam(dogamId);
+        DogamModel dogamModel = dataReadService.getDogam(dogamId);
         if(dogamModel == null){
             logger.error("get Dogam Error : {}",dogamId);
             dogamModel = new DogamModel();
@@ -122,13 +121,13 @@ public class MainController {
     public JSONReturn shareDogam(@RequestBody DogamModel dogamModel){
         try{
             logger.info(dogamModel.toString());
-            insertService.insertData(dogamModel);
+            dataInsertService.insertData(dogamModel);
         }catch (MyBatisSystemException e){
             logger.error("Database System Error : {}",e.getStackTrace());
-            return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamModel.getDogamInfoModel().getCo_dogamId());
+            return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamModel.getDogamInfoModel().getCo_dogamId());
         }
         logger.info("{}/{} : Dogam share Success.",dogamModel.getDogamInfoModel().getCo_dogamId(),dogamModel.getDogamInfoModel().getCo_title());
-        return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamModel.getDogamInfoModel().getCo_dogamId());
+        return new JSONReturn(ResponseCode.SUCCESS.getCode(),dogamModel.getDogamInfoModel().getCo_dogamId());
     }
 
     /**
@@ -140,14 +139,14 @@ public class MainController {
     public JSONReturn deleteDogam(@RequestParam int dogamId){
         logger.info("Delete Dogam ID : " + dogamId);
         try{
-            if(!readingService.isDogamExist(dogamId))
-                return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
-            readingService.deleteDogam(dogamId);
+            if(!dataReadService.isDogamExist(dogamId))
+                return new JSONReturn(ResponseCode.NOTEXIST_ID.getCode(),dogamId);
+            dataReadService.deleteDogam(dogamId);
         }catch (MyBatisSystemException e){
             logger.error("Database System Error : {}",e.getStackTrace());
-            return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("FAIL").getCode()),dogamId);
+            return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamId);
         }
-        return new JSONReturn(Integer.valueOf(ResponseCode.valueOf("SUCCESS").getCode()),dogamId);
+        return new JSONReturn(ResponseCode.SUCCESS.getCode(),dogamId);
     }
 
     /**
@@ -158,12 +157,12 @@ public class MainController {
     @RequestMapping(value = "/getDogamWriterName",method = RequestMethod.GET)
     public List<DogamInfoModel> getDogamByUserName(@RequestParam String writer){
         logger.info("Writer dogam searching : {}",writer);
-        List<DogamInfoModel> dogamInfoModels =  readingService.getDogamByWriterName(writer);
+        List<DogamInfoModel> dogamInfoModels =  dataReadService.getDogamByWriterName(writer);
         logger.debug("Writer's Dogam search success : {}", dogamInfoModels.size());
         if(dogamInfoModels.isEmpty() || dogamInfoModels == null){
             logger.warn("Writer is NOT EXIST : {}" , writer);
             List<DogamInfoModel> errorList = new ArrayList<DogamInfoModel>();
-            errorList.add(new DogamInfoModel(SEARCHERRORMESSAGE));
+            errorList.add(new DogamInfoModel(ResponseCode.SEARCH_ERROR.toString()));
             return errorList;
         }
         return dogamInfoModels;
@@ -177,12 +176,12 @@ public class MainController {
     @RequestMapping(value = "/getDogamKeyword" , method = RequestMethod.GET)
     public List<DogamInfoModel> getDogamByKeyword(@RequestParam String keyword){
         logger.info("Keyword : " + keyword);
-        List<DogamInfoModel> dogamInfoModels =  readingService.getDogamByKeyword(keyword);
+        List<DogamInfoModel> dogamInfoModels =  dataReadService.getDogamByKeyword(keyword);
         logger.debug("Keyword Search result : {}", dogamInfoModels.size());
         if(dogamInfoModels.isEmpty() || dogamInfoModels == null){
             logger.warn("Keyword is NOT Find : {}" ,keyword);
             List<DogamInfoModel> errorList = new ArrayList<DogamInfoModel>();
-            errorList.add(new DogamInfoModel(SEARCHERRORMESSAGE));
+            errorList.add(new DogamInfoModel(ResponseCode.SEARCH_ERROR.toString()));
             return errorList;
         }
         return dogamInfoModels;

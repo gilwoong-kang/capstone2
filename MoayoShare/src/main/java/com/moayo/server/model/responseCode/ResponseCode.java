@@ -1,23 +1,38 @@
 package com.moayo.server.model.responseCode;
 
 public enum ResponseCode {
-    /**
-     * 성공은 0을, 실패는 1을 가진다.
-     */
-    SUCCESS("0000"),FAIL("0001");
 
-    private String code;
+    SUCCESS(0,"Success."),
+    NOTEXIST_ID(901,"This id is Not Exist."),
+    DATABASE_ERROR(902,"A database error has occured."),
+    SEARCH_ERROR(903,"Search result wasn't found.");
 
-    ResponseCode(String s) {
-        this.code = s;
+    private int code;
+    private String description;
+
+    ResponseCode(int code , String description) {
+        this.code = code;
+        this.description = description;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return code + ": " + description;
+    }
 }

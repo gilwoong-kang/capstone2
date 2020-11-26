@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ReadService {
+public class DataReadService {
     @Autowired
     DogamList dogamList;
     @Autowired
@@ -25,7 +25,7 @@ public class ReadService {
 
     private Logger logger;
 
-    public ReadService() {
+    public DataReadService() {
         this.logger = LogManager.getLogger();
     }
 

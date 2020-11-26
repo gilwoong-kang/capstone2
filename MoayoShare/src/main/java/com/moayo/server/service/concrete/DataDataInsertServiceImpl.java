@@ -2,7 +2,7 @@ package com.moayo.server.service.concrete;
 
 import com.moayo.server.dao.*;
 import com.moayo.server.model.*;
-import com.moayo.server.service.InsertService;
+import com.moayo.server.service.DataInsertService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.MyBatisSystemException;
@@ -13,7 +13,7 @@ import util.Exception.NoDogamIdException;
 import java.util.*;
 
 @Service
-public class InsertServiceImpl implements InsertService {
+public class DataDataInsertServiceImpl implements DataInsertService {
 
     @Autowired
     DogamList dogamList;
@@ -30,7 +30,7 @@ public class InsertServiceImpl implements InsertService {
 
     private Logger logger;
 
-    public InsertServiceImpl() {
+    public DataDataInsertServiceImpl() {
         logger = LogManager.getLogger();
     }
 
