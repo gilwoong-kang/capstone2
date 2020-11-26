@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import util.Exception.NoDogamIdException;
 
 import java.util.*;
@@ -41,6 +42,7 @@ public class DataDataInsertServiceImpl implements DataInsertService {
      * @param dogamModel 도감 전체 정보
      * @see DogamModel
      */
+    @Transactional
     public void insertData(DogamModel dogamModel){
         try{
             if(dogamList.insertDogam(dogamModel.getDogamInfoModel()) == 0) logger.error("{} : DogamList Insert Error"); // category 재 라벨링 수행 이후 insert

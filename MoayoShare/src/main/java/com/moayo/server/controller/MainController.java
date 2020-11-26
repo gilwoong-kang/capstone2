@@ -66,7 +66,7 @@ public class MainController {
             logger.error("Dogam Id Error : " + dogamId);
             return new JSONReturn(ResponseCode.NOTEXIST_ID.getCode(),dogamId);
         }catch (MyBatisSystemException e){
-            logger.error("Database System Error : {}",e.getStackTrace());
+            logger.error("Database System Error : {}",e.getMessage());
             return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamId);
         }
         return new JSONReturn(ResponseCode.SUCCESS.getCode(),dogamId);
@@ -86,7 +86,7 @@ public class MainController {
             logger.error("Dogam Id Error : " + dogamId);
             return new JSONReturn(ResponseCode.NOTEXIST_ID.getCode(),dogamId);
         }catch (MyBatisSystemException e){
-            logger.error("Database System Error : {}",e.getStackTrace());
+            logger.error("Database System Error : {}",e.getMessage());
             return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamId);
         }
         return new JSONReturn(ResponseCode.SUCCESS.getCode(),dogamId);
@@ -123,7 +123,7 @@ public class MainController {
             logger.info(dogamModel.toString());
             dataInsertService.insertData(dogamModel);
         }catch (MyBatisSystemException e){
-            logger.error("Database System Error : {}",e.getStackTrace());
+            logger.error("Database System Error : {}",e.getMessage());
             return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamModel.getDogamInfoModel().getCo_dogamId());
         }
         logger.info("{}/{} : Dogam share Success.",dogamModel.getDogamInfoModel().getCo_dogamId(),dogamModel.getDogamInfoModel().getCo_title());
@@ -143,7 +143,7 @@ public class MainController {
                 return new JSONReturn(ResponseCode.NOTEXIST_ID.getCode(),dogamId);
             dataReadService.deleteDogam(dogamId);
         }catch (MyBatisSystemException e){
-            logger.error("Database System Error : {}",e.getStackTrace());
+            logger.error("Database System Error : {}",e.getMessage());
             return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamId);
         }
         return new JSONReturn(ResponseCode.SUCCESS.getCode(),dogamId);
