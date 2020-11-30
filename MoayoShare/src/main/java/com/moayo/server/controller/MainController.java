@@ -3,6 +3,8 @@ package com.moayo.server.controller;
 import com.moayo.server.model.*;
 import com.moayo.server.model.responseCode.ResponseCode;
 import com.moayo.server.service.DataInsertService;
+import com.moayo.server.service.DogamInfoService;
+import com.moayo.server.service.DogamService;
 import com.moayo.server.service.concrete.DataReadService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +28,10 @@ public class MainController {
     DataReadService dataReadService;
     @Autowired
     DataInsertService dataInsertService;
+    @Autowired
+    DogamInfoService dogamInfoService;
+    @Autowired
+    DogamService dogamService;
 
     private static Logger logger = null;
 
@@ -100,7 +106,7 @@ public class MainController {
     @RequestMapping(value = "/getDogam",method = RequestMethod.GET)
     public DogamModel getDogam(HttpServletRequest req,HttpServletResponse res,@RequestParam int dogamId){
         logger.info(req.getRequestedSessionId()+" : "+dogamId);
-        DogamModel dogamModel = dataReadService.getDogam(dogamId);
+        DogamModel dogamModel = dogamService.getDogam(dogamId);
         if(dogamModel == null){
             logger.error("get Dogam Error : {}",dogamId);
             dogamModel = new DogamModel();
@@ -139,7 +145,7 @@ public class MainController {
     public JSONReturn deleteDogam(@RequestParam int dogamId){
         logger.info("Delete Dogam ID : " + dogamId);
         try{
-            if(!dataReadService.isDogamExist(dogamId))
+            if(!dogamInfoService.isDogamExist(dogamId))
                 return new JSONReturn(ResponseCode.NOTEXIST_ID.getCode(),dogamId);
             dataReadService.deleteDogam(dogamId);
         }catch (MyBatisSystemException e){

@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class DataReadService {
     @Autowired
-    DogamList dogamList;
+    DogamList dogamList; // 변수에 dao붙이는 방향으로.
     @Autowired
     Category category;
     @Autowired
