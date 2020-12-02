@@ -5,4 +5,6 @@ import com.moayo.server.model.PostModel;
 
 public interface PostService {
     public PostModel[] getPost(int dogamId, CategoryPostModel[] categoryPostModels);
+
+    int insertPost(PostModel[] postModels, CategoryPostModel[] categoryPostModels);
 }

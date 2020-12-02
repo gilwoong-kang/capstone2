@@ -34,4 +34,27 @@ public class PostServiceImpl implements PostService {
             throw e;
         }
     }
+
+    @Override
+    public int insertPost(PostModel[] postModels, CategoryPostModel[] categoryPostModels){
+        try{
+            int count = 0;
+            for(PostModel postModel : postModels){
+                int origin = postModel.getCo_postId();
+                long rows = post.insertPost(postModel);
+                logger.trace("{} post Insert : {}",postModel.getCo_postId(),rows);
+                count++;
+                for(CategoryPostModel categoryPostModel : categoryPostModels){
+                    if(categoryPostModel.getCo_postId() == origin){
+                        categoryPostModel.setCo_postId(postModel.getCo_postId());
+                    }
+                }
+            }
+            return count;
+        }catch (MyBatisSystemException e){
+            logger.fatal("DB ERROR : {}",this.getClass().getName());
+            logger.fatal(e.getMessage());
+            throw e;
+        }
+    }
 }

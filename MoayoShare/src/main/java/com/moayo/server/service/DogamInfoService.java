@@ -8,7 +8,9 @@ public interface DogamInfoService {
     public boolean isDogamExist(int dogamId);
     public DogamInfoModel getDogamInfoModel(int dogamId);
     public List<DogamInfoModel> getAllDogamInfo();
-    public int deleteDogamInfo(int dogamId);
+    public void deleteDogamInfo(int dogamId);
     public List<DogamInfoModel> getDogamByWriterName(String writer);
     public List<DogamInfoModel> getDogamByKeyword(String keyword);
+
+    int insertDogamInfo(DogamInfoModel dogamInfoModel);
 }

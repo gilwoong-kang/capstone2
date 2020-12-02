@@ -5,7 +5,6 @@ import com.moayo.server.model.responseCode.ResponseCode;
 import com.moayo.server.service.DataInsertService;
 import com.moayo.server.service.DogamInfoService;
 import com.moayo.server.service.DogamService;
-import com.moayo.server.service.concrete.DataReadService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.MyBatisSystemException;
@@ -24,8 +23,6 @@ import java.util.List;
 @RestController
 public class MainController {
 
-    @Autowired
-    DataReadService dataReadService;
     @Autowired
     DataInsertService dataInsertService;
     @Autowired
@@ -50,7 +47,7 @@ public class MainController {
     public List<DogamInfoModel> getDogamList(){
         try{
             logger.debug("Request getDogamList");
-            return dataReadService.getDogamList();
+            return dogamInfoService.getAllDogamInfo();
         }catch (NullPointerException e){
             logger.error("Service return is NULL.");
             logger.error(e.getMessage());
@@ -147,7 +144,7 @@ public class MainController {
         try{
             if(!dogamInfoService.isDogamExist(dogamId))
                 return new JSONReturn(ResponseCode.NOTEXIST_ID.getCode(),dogamId);
-            dataReadService.deleteDogam(dogamId);
+            dogamInfoService.deleteDogamInfo(dogamId);
         }catch (MyBatisSystemException e){
             logger.error("Database System Error : {}",e.getMessage());
             return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamId);
@@ -163,7 +160,7 @@ public class MainController {
     @RequestMapping(value = "/getDogamWriterName",method = RequestMethod.GET)
     public List<DogamInfoModel> getDogamByUserName(@RequestParam String writer){
         logger.info("Writer dogam searching : {}",writer);
-        List<DogamInfoModel> dogamInfoModels =  dataReadService.getDogamByWriterName(writer);
+        List<DogamInfoModel> dogamInfoModels =  dogamInfoService.getDogamByWriterName(writer);
         logger.debug("Writer's Dogam search success : {}", dogamInfoModels.size());
         if(dogamInfoModels.isEmpty() || dogamInfoModels == null){
             logger.warn("Writer is NOT EXIST : {}" , writer);
@@ -182,7 +179,7 @@ public class MainController {
     @RequestMapping(value = "/getDogamKeyword" , method = RequestMethod.GET)
     public List<DogamInfoModel> getDogamByKeyword(@RequestParam String keyword){
         logger.info("Keyword : " + keyword);
-        List<DogamInfoModel> dogamInfoModels =  dataReadService.getDogamByKeyword(keyword);
+        List<DogamInfoModel> dogamInfoModels =  dogamInfoService.getDogamByKeyword(keyword);
         logger.debug("Keyword Search result : {}", dogamInfoModels.size());
         if(dogamInfoModels.isEmpty() || dogamInfoModels == null){
             logger.warn("Keyword is NOT Find : {}" ,keyword);

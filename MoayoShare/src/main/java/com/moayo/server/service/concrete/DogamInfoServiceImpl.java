@@ -3,7 +3,6 @@ package com.moayo.server.service.concrete;
 import com.moayo.server.dao.DogamList;
 import com.moayo.server.model.DogamInfoModel;
 import com.moayo.server.service.DogamInfoService;
-import com.mysql.cj.jdbc.JdbcConnection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.MyBatisSystemException;
@@ -50,21 +49,65 @@ public class DogamInfoServiceImpl implements DogamInfoService {
 
     @Override
     public List<DogamInfoModel> getAllDogamInfo() {
-        return null;
+        try{
+            List<DogamInfoModel> dogamInfoModels = dogamListDao.getAllDogam();
+            logger.debug("All dogam Info read. : {}",dogamInfoModels.size());
+            if(dogamInfoModels == null){ throw new NullPointerException();}
+            return dogamInfoModels;
+        }catch (MyBatisSystemException e){
+                logger.fatal("Database ERROR.");
+                logger.fatal(e.getMessage());
+                return null;
+        }
     }
 
     @Override
-    public int deleteDogamInfo(int dogamId) {
-        return 0;
+    public void deleteDogamInfo(int dogamId) {
+        try{
+            dogamListDao.deleteDogamById(dogamId);
+            logger.debug("Deleting Dogam success.");
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR.");
+            logger.fatal(e.getMessage());
+            throw e;
+        }
     }
 
     @Override
     public List<DogamInfoModel> getDogamByWriterName(String writer) {
-        return null;
+        try{
+            List<DogamInfoModel> dogamInfoModels = dogamListDao.getDogamByWriterName(writer);
+            logger.debug("{} writer's dogam read : {}",writer,dogamInfoModels.size());
+            return dogamInfoModels;
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR.");
+            logger.fatal(e.getMessage());
+            return null;
+        }
     }
 
     @Override
     public List<DogamInfoModel> getDogamByKeyword(String keyword) {
-        return null;
+        try{
+            List<DogamInfoModel> dogamInfoModels= dogamListDao.getDogamByDescriptionSearch(keyword);
+            logger.debug("{} keyword dogam info : {}",keyword,dogamInfoModels.size());
+            return dogamInfoModels;
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR.");
+            logger.fatal(e.getMessage());
+            return null;
+        }
+    }
+    @Override
+    public int insertDogamInfo(DogamInfoModel dogamInfoModel){
+        try{
+            long result = dogamListDao.insertDogam(dogamInfoModel);
+            if(result == 0) logger.error("{} : DogamList Insert Error");
+            return (int)result;
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR. : {}",this.getClass().getName());
+            logger.fatal(e.getMessage());
+            throw e;
+        }
     }
 }

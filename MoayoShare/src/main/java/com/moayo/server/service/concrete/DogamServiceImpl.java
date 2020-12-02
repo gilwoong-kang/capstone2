@@ -52,4 +52,13 @@ public class DogamServiceImpl implements DogamService {
             return null;
         }
     }
+
+    @Override
+    @Transactional
+    public void insertDogam(DogamModel dogamModel) {
+        dogamInfoService.insertDogamInfo(dogamModel.getDogamInfoModel());
+        categoryService.insertCategory(dogamModel.getCategoryModels(),dogamModel.getDogamInfoModel()
+                ,dogamModel.getCategoryPostModels(),dogamModel.getCategoryHashModels());
+
+    }
 }

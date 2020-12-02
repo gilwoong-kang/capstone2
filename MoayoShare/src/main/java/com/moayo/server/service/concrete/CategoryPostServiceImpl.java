@@ -1,6 +1,7 @@
 package com.moayo.server.service.concrete;
 
 import com.moayo.server.dao.CategoryPost;
+import com.moayo.server.model.CategoryModel;
 import com.moayo.server.model.CategoryPostModel;
 import com.moayo.server.service.CategoryPostService;
 import org.apache.logging.log4j.LogManager;
@@ -27,6 +28,16 @@ public class CategoryPostServiceImpl implements CategoryPostService {
             logger.fatal("DB ERROR : {}",this.getClass().getName());
             logger.fatal(e.getMessage());
             throw e;
+        }
+    }
+    @Override
+    public void insertCategoryPost(CategoryPostModel[] categoryPostModels, int origin, CategoryModel categoryModel){
+        for(CategoryPostModel categoryPostModel : categoryPostModels){
+            if(categoryPostModel.getCo_categoryId() == origin){
+                categoryPostModel.setCo_categoryId(categoryModel.getCo_categoryId());
+                categoryPostModel.setCo_dogamId(categoryModel.getCo_dogamId());
+                logger.trace("{} category - post data labeling {} ",categoryModel,categoryPostModel.getCo_postId());
+            }
         }
     }
 }
