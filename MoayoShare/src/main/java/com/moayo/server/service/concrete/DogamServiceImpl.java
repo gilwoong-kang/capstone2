@@ -59,6 +59,10 @@ public class DogamServiceImpl implements DogamService {
         dogamInfoService.insertDogamInfo(dogamModel.getDogamInfoModel());
         categoryService.insertCategory(dogamModel.getCategoryModels(),dogamModel.getDogamInfoModel()
                 ,dogamModel.getCategoryPostModels(),dogamModel.getCategoryHashModels());
-
+        postService.insertPost(dogamModel.getPostModels(),dogamModel.getCategoryPostModels());
+        hashService.insertHashtag(dogamModel.getHashtagModels());
+        categoryPostService.insertCategoryPost(dogamModel.getCategoryPostModels());
+        categoryHashService.insertCategoryHash(dogamModel.getCategoryHashModels());
+        logger.info("Insert Success {} : {}", dogamModel.getDogamInfoModel().getCo_dogamId(), dogamModel.getDogamInfoModel().getCo_title());
     }
 }

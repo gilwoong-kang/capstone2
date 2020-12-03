@@ -6,5 +6,7 @@ import com.moayo.server.model.CategoryPostModel;
 public interface CategoryPostService {
     public CategoryPostModel[] getCategoryPost(int dogamId);
 
-    void insertCategoryPost(CategoryPostModel[] categoryPostModels, int origin, CategoryModel categoryModel);
+    void labelingCategoryPost(CategoryPostModel[] categoryPostModels, int origin, CategoryModel categoryModel);
+
+    int insertCategoryPost(CategoryPostModel[] categoryPostModels);
 }

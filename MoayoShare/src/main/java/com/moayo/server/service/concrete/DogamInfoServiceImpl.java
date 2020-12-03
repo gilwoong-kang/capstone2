@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
+import util.Exception.NoDogamIdException;
 
 import java.util.List;
 
@@ -109,5 +110,28 @@ public class DogamInfoServiceImpl implements DogamInfoService {
             logger.fatal(e.getMessage());
             throw e;
         }
+    }
+
+    @Override
+    public void like(int dogamId) throws NoDogamIdException {
+        try{
+            if(dogamListDao.like(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR. {}",e.getMessage());
+            throw e;
+        }
+        logger.debug("{} like success.",dogamId);
+    }
+
+    @Override
+    public void disLike(int dogamId) throws NoDogamIdException{
+        try{
+            if(dogamListDao.disLike(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR.");
+            logger.fatal(e.getMessage());
+            throw e;
+        }
+        logger.debug("{} dislike success.",dogamId);
     }
 }

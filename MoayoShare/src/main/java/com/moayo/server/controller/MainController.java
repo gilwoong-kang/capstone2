@@ -2,7 +2,6 @@ package com.moayo.server.controller;
 
 import com.moayo.server.model.*;
 import com.moayo.server.model.responseCode.ResponseCode;
-import com.moayo.server.service.DataInsertService;
 import com.moayo.server.service.DogamInfoService;
 import com.moayo.server.service.DogamService;
 import org.apache.logging.log4j.LogManager;
@@ -23,8 +22,6 @@ import java.util.List;
 @RestController
 public class MainController {
 
-    @Autowired
-    DataInsertService dataInsertService;
     @Autowired
     DogamInfoService dogamInfoService;
     @Autowired
@@ -64,7 +61,7 @@ public class MainController {
     public JSONReturn like(@RequestParam int dogamId){
         try{
             logger.info("DogamId : " + dogamId + " Like.");
-            dataInsertService.like(dogamId);
+            dogamInfoService.like(dogamId);
         }catch (NoDogamIdException e){
             logger.error("Dogam Id Error : " + dogamId);
             return new JSONReturn(ResponseCode.NOTEXIST_ID.getCode(),dogamId);
@@ -84,7 +81,7 @@ public class MainController {
     public JSONReturn disLike(@RequestParam int dogamId){
         try{
             logger.info("DogamId : " + dogamId + " DisLike.");
-            dataInsertService.disLike(dogamId);
+            dogamInfoService.disLike(dogamId);
         }catch (NoDogamIdException e){
             logger.error("Dogam Id Error : " + dogamId);
             return new JSONReturn(ResponseCode.NOTEXIST_ID.getCode(),dogamId);
@@ -124,7 +121,7 @@ public class MainController {
     public JSONReturn shareDogam(@RequestBody DogamModel dogamModel){
         try{
             logger.info(dogamModel.toString());
-            dataInsertService.insertData(dogamModel);
+            dogamService.insertDogam(dogamModel);
         }catch (MyBatisSystemException e){
             logger.error("Database System Error : {}",e.getMessage());
             return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamModel.getDogamInfoModel().getCo_dogamId());

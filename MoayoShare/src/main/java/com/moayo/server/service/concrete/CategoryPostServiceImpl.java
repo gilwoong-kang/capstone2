@@ -7,7 +7,6 @@ import com.moayo.server.service.CategoryPostService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.MyBatisSystemException;
-import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class CategoryPostServiceImpl implements CategoryPostService {
@@ -31,7 +30,7 @@ public class CategoryPostServiceImpl implements CategoryPostService {
         }
     }
     @Override
-    public void insertCategoryPost(CategoryPostModel[] categoryPostModels, int origin, CategoryModel categoryModel){
+    public void labelingCategoryPost(CategoryPostModel[] categoryPostModels, int origin, CategoryModel categoryModel){
         for(CategoryPostModel categoryPostModel : categoryPostModels){
             if(categoryPostModel.getCo_categoryId() == origin){
                 categoryPostModel.setCo_categoryId(categoryModel.getCo_categoryId());
@@ -40,4 +39,23 @@ public class CategoryPostServiceImpl implements CategoryPostService {
             }
         }
     }
+
+    @Override
+    public int insertCategoryPost(CategoryPostModel[] categoryPostModels){
+        try{
+            if(categoryPostModels.length != 0) {
+                long rows = categoryPost.insertAll(categoryPostModels);
+                logger.debug("category post insert success : {}",rows);
+                return (int)rows;
+            }else{
+                logger.debug("Post is Empty : {}",categoryPostModels.toString());
+                return -1;
+            }
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR. : {}",this.getClass().getName());
+            logger.fatal(e.getMessage());
+            throw e;
+        }
+    }
+
 }

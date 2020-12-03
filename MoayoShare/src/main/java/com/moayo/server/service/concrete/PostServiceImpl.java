@@ -50,6 +50,7 @@ public class PostServiceImpl implements PostService {
                     }
                 }
             }
+            logger.debug("post insert success : {}",count);
             return count;
         }catch (MyBatisSystemException e){
             logger.fatal("DB ERROR : {}",this.getClass().getName());

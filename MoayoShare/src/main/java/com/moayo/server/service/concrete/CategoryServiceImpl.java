@@ -58,8 +58,8 @@ public class CategoryServiceImpl implements CategoryService {
                 if(categoryModel.getCo_categoryId() == categoryModel.getCo_parentCategoryId()) insertRootCategory(categoryModel);
                 else insertGeneralCategory(categoryModel,categoryModelMap);
                 categoryModelMap.put(origin,categoryModel);
-                categoryPostService.insertCategoryPost(categoryPostModels,origin,categoryModel);
-                categoryHashService.insertCategoryHash(categoryHashModels,origin,categoryModel);
+                categoryPostService.labelingCategoryPost(categoryPostModels,origin,categoryModel);
+                categoryHashService.labelingCategoryHash(categoryHashModels,origin,categoryModel);
             }
         }
         logger.info("{} dogam insert {} cateogries.",dogamInfoModel,categoryModelMap.size());

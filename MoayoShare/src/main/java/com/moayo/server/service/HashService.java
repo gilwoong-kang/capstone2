@@ -5,4 +5,6 @@ import com.moayo.server.model.HashtagModel;
 
 public interface HashService {
     public HashtagModel[] getHashtag(int dogamId, CategoryHashModel[] categoryHashModels);
+
+    int insertHashtag(HashtagModel[] hashtagModels);
 }

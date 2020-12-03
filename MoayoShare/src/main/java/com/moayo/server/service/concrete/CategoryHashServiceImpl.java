@@ -32,14 +32,33 @@ public class CategoryHashServiceImpl implements CategoryHashService {
             throw e;
         }
     }
+
     @Override
-    public void insertCategoryHash(CategoryHashModel[] categoryHashModels, int origin, CategoryModel categoryModel){
+    public void labelingCategoryHash(CategoryHashModel[] categoryHashModels, int origin, CategoryModel categoryModel){
         for(CategoryHashModel categoryHashModel : categoryHashModels){
             if(categoryHashModel.getco_categoryId() == origin){
                 categoryHashModel.setco_dogamId(categoryModel.getCo_dogamId());
                 categoryHashModel.setco_categoryId(categoryModel.getCo_categoryId());
                 logger.trace("{} category - hash data labeling {} ",categoryModel,categoryHashModel.getco_hashtag());
             }
+        }
+    }
+
+    @Override
+    public int insertCategoryHash(CategoryHashModel[] categoryHashModels){
+        try{
+            if(categoryHashModels.length != 0){
+                long rows = categoryHashDao.insertAll(categoryHashModels);
+                logger.debug("category hash insert success : {}",rows);
+                return (int)rows;
+            }else{
+                logger.debug("CategoryHash is Empty : {}",categoryHashModels.toString());
+                return -1;
+            }
+        }catch (MyBatisSystemException e){
+            logger.fatal("Database ERROR. : {}",this.getClass().getName());
+            logger.fatal(e.getMessage());
+            throw e;
         }
     }
 }
