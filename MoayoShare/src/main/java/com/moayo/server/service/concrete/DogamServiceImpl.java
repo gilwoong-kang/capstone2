@@ -1,8 +1,5 @@
 package com.moayo.server.service.concrete;
 
-import com.moayo.server.dao.Category;
-import com.moayo.server.dao.CategoryHash;
-import com.moayo.server.dao.Hashtag;
 import com.moayo.server.model.CategoryHashModel;
 import com.moayo.server.model.CategoryPostModel;
 import com.moayo.server.model.DogamModel;
@@ -63,6 +60,6 @@ public class DogamServiceImpl implements DogamService {
         hashService.insertHashtag(dogamModel.getHashtagModels());
         categoryPostService.insertCategoryPost(dogamModel.getCategoryPostModels());
         categoryHashService.insertCategoryHash(dogamModel.getCategoryHashModels());
-        logger.info("Insert Success {} : {}", dogamModel.getDogamInfoModel().getCo_dogamId(), dogamModel.getDogamInfoModel().getCo_title());
+        logger.info("Insert Success {} : {}", dogamModel.getDogamInfoModel().getDogamId(), dogamModel.getDogamInfoModel().getTitle());
     }
 }

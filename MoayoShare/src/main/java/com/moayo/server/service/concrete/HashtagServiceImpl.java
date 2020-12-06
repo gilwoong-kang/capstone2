@@ -41,10 +41,10 @@ public class HashtagServiceImpl implements HashService {
                 for(HashtagModel hashtagModel : hashtagModels){
                     try{
                         long row = hashtagDao.insertHashtag(hashtagModel);
-                        logger.trace("{} hashtag insert : {}",hashtagModel.getCo_hashtag(),row);
+                        logger.trace("{} hashtag insert : {}",hashtagModel.getHashtag(),row);
                         count++;
                     }catch (Exception e){
-                        logger.error(hashtagModel.getCo_hashtag() + " : duplicate.");
+                        logger.error(hashtagModel.getHashtag() + " : duplicate.");
                         continue;
                     }
                 }

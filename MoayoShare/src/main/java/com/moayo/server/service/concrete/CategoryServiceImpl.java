@@ -53,9 +53,9 @@ public class CategoryServiceImpl implements CategoryService {
         for(int i = 1; i<levelLabelCategory.keySet().size()+1;i++){
             for(CategoryModel categoryModel : levelLabelCategory.get(i)){
                 int origin = 0;
-                categoryModel.setCo_dogamId(dogamInfoModel.getCo_dogamId());
-                origin = categoryModel.getCo_categoryId();
-                if(categoryModel.getCo_categoryId() == categoryModel.getCo_parentCategoryId()) insertRootCategory(categoryModel);
+                categoryModel.setDogamId(dogamInfoModel.getDogamId());
+                origin = categoryModel.getCategoryId();
+                if(categoryModel.getCategoryId() == categoryModel.getParentCategoryId()) insertRootCategory(categoryModel);
                 else insertGeneralCategory(categoryModel,categoryModelMap);
                 categoryModelMap.put(origin,categoryModel);
                 categoryPostService.labelingCategoryPost(categoryPostModels,origin,categoryModel);
@@ -73,7 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
             long rows = categoryDao.insertCategory(categoryModel);
             categoryDao.foreignKeyON();
             logger.trace("foreignKey On");
-            categoryModel.setCo_parentCategoryId(categoryModel.getCo_categoryId());
+            categoryModel.setParentCategoryId(categoryModel.getCategoryId());
             categoryDao.updateCategory(categoryModel);
             logger.debug("{} Dogam root insert rows : {} ",categoryModel,rows);
         }catch (MyBatisSystemException e){
@@ -84,9 +84,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     private void insertGeneralCategory(CategoryModel categoryModel,Map<Integer,CategoryModel> categoryModelMap){
         try{
-            categoryModel.setCo_parentCategoryId(categoryModelMap.get(categoryModel.getCo_parentCategoryId()).getCo_categoryId());
+            categoryModel.setParentCategoryId(categoryModelMap.get(categoryModel.getParentCategoryId()).getCategoryId());
             categoryDao.insertCategory(categoryModel);
-            logger.debug("{} category Insert : {}",categoryModel,categoryModel.getCo_categoryId());
+            logger.debug("{} category Insert : {}",categoryModel,categoryModel.getCategoryId());
         }catch (MyBatisSystemException e){
             logger.error("Category insert SQL ERROR : " + this.getClass().getName());
             logger.error(e.getMessage());
@@ -101,12 +101,12 @@ public class CategoryServiceImpl implements CategoryService {
     private Map<Integer, List<CategoryModel>> labelCategory(CategoryModel[] categoryModels){
         Map<Integer,List<CategoryModel>> labelCategory = new HashMap<Integer, List<CategoryModel>>();
         for(CategoryModel categoryModel : categoryModels){
-            if(!labelCategory.containsKey(categoryModel.getCo_level())){
+            if(!labelCategory.containsKey(categoryModel.getLevel())){
                 List<CategoryModel> list = new ArrayList<CategoryModel>();
                 list.add(categoryModel);
-                labelCategory.put(categoryModel.getCo_level(),list);
+                labelCategory.put(categoryModel.getLevel(),list);
             }else{
-                labelCategory.get(categoryModel.getCo_level()).add(categoryModel);
+                labelCategory.get(categoryModel.getLevel()).add(categoryModel);
             }
         }
         logger.debug("Relabeling Category data success : {}",labelCategory.size() );

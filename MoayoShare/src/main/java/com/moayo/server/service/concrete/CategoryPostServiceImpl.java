@@ -32,10 +32,10 @@ public class CategoryPostServiceImpl implements CategoryPostService {
     @Override
     public void labelingCategoryPost(CategoryPostModel[] categoryPostModels, int origin, CategoryModel categoryModel){
         for(CategoryPostModel categoryPostModel : categoryPostModels){
-            if(categoryPostModel.getCo_categoryId() == origin){
-                categoryPostModel.setCo_categoryId(categoryModel.getCo_categoryId());
-                categoryPostModel.setCo_dogamId(categoryModel.getCo_dogamId());
-                logger.trace("{} category - post data labeling {} ",categoryModel,categoryPostModel.getCo_postId());
+            if(categoryPostModel.getCategoryId() == origin){
+                categoryPostModel.setCategoryId(categoryModel.getCategoryId());
+                categoryPostModel.setDogamId(categoryModel.getDogamId());
+                logger.trace("{} category - post data labeling {} ",categoryModel,categoryPostModel.getPostId());
             }
         }
     }

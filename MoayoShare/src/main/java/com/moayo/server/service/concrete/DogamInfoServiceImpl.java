@@ -39,7 +39,7 @@ public class DogamInfoServiceImpl implements DogamInfoService {
     public DogamInfoModel getDogamInfoModel(int dogamId) {
         try{
             DogamInfoModel dogamInfoModel = dogamListDao.getDogamById(dogamId);
-            logger.debug("{} dogam info read. : {}",dogamId,dogamInfoModel.getCo_title());
+            logger.debug("{} dogam info read. : {}",dogamId,dogamInfoModel.getTitle());
             return dogamInfoModel;
         }catch (MyBatisSystemException e){
             logger.fatal("DB ERROR : {}",this.getClass().getName());

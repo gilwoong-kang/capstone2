@@ -37,8 +37,8 @@ public class CategoryHashServiceImpl implements CategoryHashService {
     public void labelingCategoryHash(CategoryHashModel[] categoryHashModels, int origin, CategoryModel categoryModel){
         for(CategoryHashModel categoryHashModel : categoryHashModels){
             if(categoryHashModel.getco_categoryId() == origin){
-                categoryHashModel.setco_dogamId(categoryModel.getCo_dogamId());
-                categoryHashModel.setco_categoryId(categoryModel.getCo_categoryId());
+                categoryHashModel.setco_dogamId(categoryModel.getDogamId());
+                categoryHashModel.setco_categoryId(categoryModel.getCategoryId());
                 logger.trace("{} category - hash data labeling {} ",categoryModel,categoryHashModel.getco_hashtag());
             }
         }
