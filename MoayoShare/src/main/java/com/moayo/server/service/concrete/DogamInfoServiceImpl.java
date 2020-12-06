@@ -1,6 +1,6 @@
 package com.moayo.server.service.concrete;
 
-import com.moayo.server.dao.DogamList;
+import com.moayo.server.dao.Dogam;
 import com.moayo.server.model.DogamInfoModel;
 import com.moayo.server.service.DogamInfoService;
 import org.apache.logging.log4j.LogManager;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DogamInfoServiceImpl implements DogamInfoService {
     @Autowired
-    DogamList dogamListDao;
+    Dogam dogamDao;
 
     private Logger logger;
 
@@ -22,7 +22,7 @@ public class DogamInfoServiceImpl implements DogamInfoService {
     @Override
     public boolean isDogamExist(int dogamId) {
         try {
-            DogamInfoModel dogamInfoModel = dogamListDao.getDogamById(dogamId);
+            DogamInfoModel dogamInfoModel = dogamDao.getDogamById(dogamId);
             if(dogamInfoModel == null){
                 logger.warn("{} dogam is NOT EXIST.",dogamId);
                 return false;
@@ -38,7 +38,7 @@ public class DogamInfoServiceImpl implements DogamInfoService {
     @Override
     public DogamInfoModel getDogamInfoModel(int dogamId) {
         try{
-            DogamInfoModel dogamInfoModel = dogamListDao.getDogamById(dogamId);
+            DogamInfoModel dogamInfoModel = dogamDao.getDogamById(dogamId);
             logger.debug("{} dogam info read. : {}",dogamId,dogamInfoModel.getTitle());
             return dogamInfoModel;
         }catch (MyBatisSystemException e){
@@ -51,7 +51,7 @@ public class DogamInfoServiceImpl implements DogamInfoService {
     @Override
     public List<DogamInfoModel> getAllDogamInfo() {
         try{
-            List<DogamInfoModel> dogamInfoModels = dogamListDao.getAllDogam();
+            List<DogamInfoModel> dogamInfoModels = dogamDao.getAllDogam();
             logger.debug("All dogam Info read. : {}",dogamInfoModels.size());
             if(dogamInfoModels == null){ throw new NullPointerException();}
             return dogamInfoModels;
@@ -65,7 +65,7 @@ public class DogamInfoServiceImpl implements DogamInfoService {
     @Override
     public void deleteDogamInfo(int dogamId) {
         try{
-            dogamListDao.deleteDogamById(dogamId);
+            dogamDao.deleteDogamById(dogamId);
             logger.debug("Deleting Dogam success.");
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
@@ -77,7 +77,7 @@ public class DogamInfoServiceImpl implements DogamInfoService {
     @Override
     public List<DogamInfoModel> getDogamByWriterName(String writer) {
         try{
-            List<DogamInfoModel> dogamInfoModels = dogamListDao.getDogamByWriterName(writer);
+            List<DogamInfoModel> dogamInfoModels = dogamDao.getDogamByWriterName(writer);
             logger.debug("{} writer's dogam read : {}",writer,dogamInfoModels.size());
             return dogamInfoModels;
         }catch (MyBatisSystemException e){
@@ -90,7 +90,7 @@ public class DogamInfoServiceImpl implements DogamInfoService {
     @Override
     public List<DogamInfoModel> getDogamByKeyword(String keyword) {
         try{
-            List<DogamInfoModel> dogamInfoModels= dogamListDao.getDogamByDescriptionSearch(keyword);
+            List<DogamInfoModel> dogamInfoModels= dogamDao.getDogamByDescriptionSearch(keyword);
             logger.debug("{} keyword dogam info : {}",keyword,dogamInfoModels.size());
             return dogamInfoModels;
         }catch (MyBatisSystemException e){
@@ -102,8 +102,8 @@ public class DogamInfoServiceImpl implements DogamInfoService {
     @Override
     public int insertDogamInfo(DogamInfoModel dogamInfoModel){
         try{
-            long result = dogamListDao.insertDogam(dogamInfoModel);
-            if(result == 0) logger.error("{} : DogamList Insert Error");
+            long result = dogamDao.insertDogam(dogamInfoModel);
+            if(result == 0) logger.error("{} : Dogam Insert Error");
             return (int)result;
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR. : {}",this.getClass().getName());
@@ -115,7 +115,7 @@ public class DogamInfoServiceImpl implements DogamInfoService {
     @Override
     public void like(int dogamId) throws NoDogamIdException {
         try{
-            if(dogamListDao.like(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
+            if(dogamDao.like(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR. {}",e.getMessage());
             throw e;
@@ -126,7 +126,7 @@ public class DogamInfoServiceImpl implements DogamInfoService {
     @Override
     public void disLike(int dogamId) throws NoDogamIdException{
         try{
-            if(dogamListDao.disLike(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
+            if(dogamDao.disLike(dogamId) == 0){ throw new NoDogamIdException(dogamId + " is NOT EXIST."); }
         }catch (MyBatisSystemException e){
             logger.fatal("Database ERROR.");
             logger.fatal(e.getMessage());
