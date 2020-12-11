@@ -4,38 +4,38 @@ import java.sql.Timestamp;
 
 public class DogamInfoModel {
 
-    private int dogamId;
-    private String title;
-    private String description;
-    private int status;
-    private String password;
-    private String writer;
-    private int like;
-    private Timestamp date;
+    private int co_dogamId;
+    private String co_title;
+    private String co_description;
+    private int co_status;
+    private String co_password;
+    private String co_writer;
+    private int co_like;
+    private Timestamp co_date;
 
     /**
      * Constructor. 모든 필드값에 대함.
      * */
-    public DogamInfoModel(int dogamId, String title, String description, int status, String password, String writer, int like) {
-        this.dogamId = dogamId;
-        this.title = title;
-        this.description = description;
-        this.status = status;
-        this.password = password;
-        this.writer = writer;
-        this.like = like;
+    public DogamInfoModel(int co_dogamId, String co_title, String co_description, int co_status, String co_password, String co_writer, int co_like) {
+        this.co_dogamId = co_dogamId;
+        this.co_title = co_title;
+        this.co_description = co_description;
+        this.co_status = co_status;
+        this.co_password = co_password;
+        this.co_writer = co_writer;
+        this.co_like = co_like;
     }
 
     /**
      * 도감 id를 제외한 Constructor. 도감 id는 디비에서 가져와서 이용하거나 로직에서 따로 이용한다.
      * */
-    public DogamInfoModel(String title, String description, int status, String password, String writer, int like) {
-        this.title = title;
-        this.description = description;
-        this.status = status;
-        this.password = password;
-        this.writer = writer;
-        this.like = like;
+    public DogamInfoModel(String co_title, String co_description, int co_status, String co_password, String co_writer, int co_like) {
+        this.co_title = co_title;
+        this.co_description = co_description;
+        this.co_status = co_status;
+        this.co_password = co_password;
+        this.co_writer = co_writer;
+        this.co_like = co_like;
     }
 
     public DogamInfoModel() { }
@@ -43,75 +43,75 @@ public class DogamInfoModel {
     /**
      * 도감의 제목만 부여된 객체 생성. 주로 오류값을 전달할 때 이용한다.
      * */
-    public DogamInfoModel(String title) {
-        this.title = title;
+    public DogamInfoModel(String co_title) {
+        this.co_title = co_title;
     }
 
     /**
      * 이후로는 각 필드에 대한 get/set 메소드.
      * */
-    public int getLike() {
-        return like;
+    public int getCo_like() {
+        return co_like;
     }
 
-    public void setLike(int like) {
-        this.like = like;
+    public void setCo_like(int co_like) {
+        this.co_like = co_like;
     }
 
-    public Timestamp getDate() {
-        return date;
+    public Timestamp getCo_date() {
+        return co_date;
     }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
+    public void setCo_date(Timestamp co_date) {
+        this.co_date = co_date;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
+    public void setCo_writer(String co_writer) {
+        this.co_writer = co_writer;
     }
 
-    public String getWriter() {
-        return writer;
+    public String getCo_writer() {
+        return co_writer;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCo_title(String co_title) {
+        this.co_title = co_title;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCo_title() {
+        return co_title;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCo_password(String co_password) {
+        this.co_password = co_password;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCo_password() {
+        return co_password;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCo_description(String co_description) {
+        this.co_description = co_description;
     }
 
-    public int getDogamId() {
-        return dogamId;
+    public int getCo_dogamId() {
+        return co_dogamId;
     }
 
-    public void setDogamId(int dogamId) {
-        this.dogamId = dogamId;
+    public void setCo_dogamId(int co_dogamId) {
+        this.co_dogamId = co_dogamId;
     }
 
-    public int getStatus() {
-        return status;
+    public int getCo_status() {
+        return co_status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setCo_status(int co_status) {
+        this.co_status = co_status;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCo_description() {
+        return co_description;
     }
 
     /**
@@ -121,14 +121,14 @@ public class DogamInfoModel {
     @Override
     public String toString() {
         return "DogamInfoModel{" +
-                "dogamId=" + dogamId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", password='" + password + '\'' +
-                ", writer='" + writer + '\'' +
-                ", like=" + like +
-                ", date=" + date +
+                "co_dogamId=" + co_dogamId +
+                ", co_title='" + co_title + '\'' +
+                ", co_description='" + co_description + '\'' +
+                ", co_status=" + co_status +
+                ", co_password='" + co_password + '\'' +
+                ", co_writer='" + co_writer + '\'' +
+                ", co_like=" + co_like +
+                ", co_date=" + co_date +
                 '}';
     }
 }

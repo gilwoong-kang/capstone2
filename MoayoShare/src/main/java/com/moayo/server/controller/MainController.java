@@ -107,7 +107,7 @@ public class MainController {
             dogamModel.setDogamInfoModel(new DogamInfoModel("Dogam ERROR."));
             return dogamModel;
         }
-        logger.info("{}/{} : Dogam Out.",dogamModel.getDogamInfoModel().getDogamId(),dogamModel.getDogamInfoModel().getTitle());
+        logger.info("{}/{} : Dogam Out.",dogamModel.getDogamInfoModel().getCo_dogamId(),dogamModel.getDogamInfoModel().getCo_title());
         return dogamModel;
     }
 
@@ -124,10 +124,10 @@ public class MainController {
             dogamService.insertDogam(dogamModel);
         }catch (MyBatisSystemException e){
             logger.error("Database System Error : {}",e.getMessage());
-            return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamModel.getDogamInfoModel().getDogamId());
+            return new JSONReturn(ResponseCode.DATABASE_ERROR.getCode(),dogamModel.getDogamInfoModel().getCo_dogamId());
         }
-        logger.info("{}/{} : Dogam share Success.",dogamModel.getDogamInfoModel().getDogamId(),dogamModel.getDogamInfoModel().getTitle());
-        return new JSONReturn(ResponseCode.SUCCESS.getCode(),dogamModel.getDogamInfoModel().getDogamId());
+        logger.info("{}/{} : Dogam share Success.",dogamModel.getDogamInfoModel().getCo_dogamId(),dogamModel.getDogamInfoModel().getCo_title());
+        return new JSONReturn(ResponseCode.SUCCESS.getCode(),dogamModel.getDogamInfoModel().getCo_dogamId());
     }
 
     /**

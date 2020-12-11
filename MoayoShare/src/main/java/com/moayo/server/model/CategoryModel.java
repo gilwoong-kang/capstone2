@@ -2,73 +2,73 @@ package com.moayo.server.model;
 
 public class CategoryModel {
 
-    private int categoryId;
-    private int dogamId;
-    private String name;
-    private int level;
-    private int parentCategoryId;
+    private int co_categoryId;
+    private int co_dogamId;
+    private String co_name;
+    private int co_level;
+    private int co_parentCategoryId;
 
-    public CategoryModel(int categoryId, int dogamId, String name, int level, int parentCategoryId) {
-        this.categoryId = categoryId;
-        this.dogamId = dogamId;
-        this.name = name;
-        this.level = level;
-        this.parentCategoryId = parentCategoryId;
+    public CategoryModel(int co_categoryId, int co_dogamId, String co_name, int co_level, int co_parentCategoryId) {
+        this.co_categoryId = co_categoryId;
+        this.co_dogamId = co_dogamId;
+        this.co_name = co_name;
+        this.co_level = co_level;
+        this.co_parentCategoryId = co_parentCategoryId;
     }
 
-    public CategoryModel(int dogamId, String name, int level, int parentCategoryId) {
-        this.dogamId = dogamId;
-        this.name = name;
-        this.level = level;
-        this.parentCategoryId = parentCategoryId;
+    public CategoryModel(int co_dogamId, String co_name, int co_level, int co_parentCategoryId) {
+        this.co_dogamId = co_dogamId;
+        this.co_name = co_name;
+        this.co_level = co_level;
+        this.co_parentCategoryId = co_parentCategoryId;
     }
 
-    public CategoryModel(int dogamId, String name, int level) {
-        this.dogamId = dogamId;
-        this.name = name;
-        this.level = level;
+    public CategoryModel(int co_dogamId, String co_name, int co_level) {
+        this.co_dogamId = co_dogamId;
+        this.co_name = co_name;
+        this.co_level = co_level;
     }
 
     public CategoryModel() { }
 
-    public int getDogamId() {
-        return dogamId;
+    public int getCo_dogamId() {
+        return co_dogamId;
     }
 
-    public void setDogamId(int dogamId) {
-        this.dogamId = dogamId;
+    public void setCo_dogamId(int co_dogamId) {
+        this.co_dogamId = co_dogamId;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public int getCo_categoryId() {
+        return co_categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCo_categoryId(int co_categoryId) {
+        this.co_categoryId = co_categoryId;
     }
 
-    public int getLevel() {
-        return level;
+    public int getCo_level() {
+        return co_level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setCo_level(int co_level) {
+        this.co_level = co_level;
     }
 
-    public int getParentCategoryId() {
-        return parentCategoryId;
+    public int getCo_parentCategoryId() {
+        return co_parentCategoryId;
     }
 
-    public void setParentCategoryId(int parentCategoryId) {
-        this.parentCategoryId = parentCategoryId;
+    public void setCo_parentCategoryId(int co_parentCategoryId) {
+        this.co_parentCategoryId = co_parentCategoryId;
     }
 
-    public String getName() {
-        return name;
+    public String getCo_name() {
+        return co_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCo_name(String co_name) {
+        this.co_name = co_name;
     }
 
     /**
@@ -78,11 +78,11 @@ public class CategoryModel {
     @Override
     public String toString() {
         return "CategoryModel{" +
-                "categoryId=" + categoryId +
-                ", dogamId=" + dogamId +
-                ", name='" + name + '\'' +
-                ", level=" + level +
-                ", parentCategoryId=" + parentCategoryId +
+                "co_categoryId=" + co_categoryId +
+                ", co_dogamId=" + co_dogamId +
+                ", co_name='" + co_name + '\'' +
+                ", co_level=" + co_level +
+                ", co_parentCategoryId=" + co_parentCategoryId +
                 '}';
     }
 }

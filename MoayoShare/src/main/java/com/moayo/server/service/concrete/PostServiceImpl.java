@@ -24,7 +24,7 @@ public class PostServiceImpl implements PostService {
         try{
             PostModel[] postModels = new PostModel[categoryPostModels.length];
             for(int i = 0;i<postModels.length;i++){
-                postModels[i] = post.getPost(categoryPostModels[i].getPostId());
+                postModels[i] = post.getPost(categoryPostModels[i].getCo_postId());
             }
             logger.debug("{} post read. : {}",dogamId,postModels.length);
             return postModels;
@@ -40,13 +40,13 @@ public class PostServiceImpl implements PostService {
         try{
             int count = 0;
             for(PostModel postModel : postModels){
-                int origin = postModel.getPostId();
+                int origin = postModel.getCo_postId();
                 long rows = post.insertPost(postModel);
-                logger.trace("{} post Insert : {}",postModel.getPostId(),rows);
+                logger.trace("{} post Insert : {}",postModel.getCo_postId(),rows);
                 count++;
                 for(CategoryPostModel categoryPostModel : categoryPostModels){
-                    if(categoryPostModel.getPostId() == origin){
-                        categoryPostModel.setPostId(postModel.getPostId());
+                    if(categoryPostModel.getCo_postId() == origin){
+                        categoryPostModel.setCo_postId(postModel.getCo_postId());
                     }
                 }
             }

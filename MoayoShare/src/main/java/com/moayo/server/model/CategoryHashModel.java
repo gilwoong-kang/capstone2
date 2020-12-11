@@ -7,17 +7,17 @@ package com.moayo.server.model;
  * */
 public class CategoryHashModel {
 
-    private int dogamId;
-    private int categoryId;
-    private String hashtag;
+    private int co_dogamId;
+    private int co_categoryId;
+    private String co_hashtag;
 
     /**
      * Constructor는 값이 모두 존재하거나 값이 없는 경우만을 상정하므로 해당 경우에 맞게 설정.
      * */
-    public CategoryHashModel(int dogamId, int categoryId, String hashtag) {
-        this.dogamId = dogamId;
-        this.categoryId = categoryId;
-        this.hashtag = hashtag;
+    public CategoryHashModel(int co_dogamId, int co_categoryId, String co_hashtag) {
+        this.co_dogamId = co_dogamId;
+        this.co_categoryId = co_categoryId;
+        this.co_hashtag = co_hashtag;
     }
 
     public CategoryHashModel() { }
@@ -26,27 +26,27 @@ public class CategoryHashModel {
      * get/set 메소드
      * */
     public void setco_hashtag(String co_hashtag) {
-        this.hashtag = co_hashtag;
+        this.co_hashtag = co_hashtag;
     }
 
     public String getco_hashtag() {
-        return hashtag;
+        return co_hashtag;
     }
 
     public void setco_categoryId(int co_categoryId) {
-        this.categoryId = co_categoryId;
+        this.co_categoryId = co_categoryId;
     }
 
     public int getco_categoryId() {
-        return categoryId;
+        return co_categoryId;
     }
 
     public void setco_dogamId(int co_dogamId) {
-        this.dogamId = co_dogamId;
+        this.co_dogamId = co_dogamId;
     }
 
     public int getco_dogamId() {
-        return dogamId;
+        return co_dogamId;
     }
 
     /**
@@ -56,9 +56,9 @@ public class CategoryHashModel {
     @Override
     public String toString() {
         return "CategoryHashModel{" +
-                "dogamId=" + dogamId +
-                ", categoryId=" + categoryId +
-                ", hashtag='" + hashtag + '\'' +
+                "co_dogamId=" + co_dogamId +
+                ", co_categoryId=" + co_categoryId +
+                ", co_hashtag='" + co_hashtag + '\'' +
                 '}';
     }
 }
