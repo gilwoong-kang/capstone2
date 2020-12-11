@@ -7,10 +7,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import util.Exception.NoDogamIdException;
 
 import java.util.List;
 
+@Service
 public class DogamInfoServiceImpl implements DogamInfoService {
     @Autowired
     Dogam dogamDao;
